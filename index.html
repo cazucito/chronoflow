@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ChronoFlow - Cronómetro PWA elegante y simple">
+    <meta name="theme-color" content="#4CAF50">
+    
+    <title>ChronoFlow</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="app">
+        <!-- App shell - se llena con JS -->
+        <header class="app-header">
+            <h1>⏱️ ChronoFlow</h1>
+        </header>
+        
+        <main class="app-main">
+            <div class="timer-display">
+                <span id="time-display">00:00:00.00</span>
+            </div>
+            
+            <div class="timer-controls">
+                <button id="btn-start" class="btn btn-primary">Iniciar</button>
+                <button id="btn-pause" class="btn btn-secondary" disabled>Pausar</button>
+                <button id="btn-reset" class="btn btn-tertiary">Reset</button>
+            </div>
+            
+            <div class="mode-selector">
+                <select id="timer-mode">
+                    <option value="stopwatch">Cronómetro</option>
+                    <option value="timer">Timer</option>
+                    <option value="pomodoro">Pomodoro</option>
+                </select>
+            </div>
+        </main>
+        
+        <footer class="app-footer">
+            <p>ChronoFlow v1.0 - PWA</p>
+        </footer>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/pwa.js"></script>
+</body>
+</html>
