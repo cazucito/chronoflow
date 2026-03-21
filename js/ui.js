@@ -351,9 +351,6 @@ const UI = {
     } else {
       this.elements.endTime.textContent = '--:--';
     }
-    } else {
-      this.elements.endTime.textContent = '--:--';
-    }
   },
 
   /**
