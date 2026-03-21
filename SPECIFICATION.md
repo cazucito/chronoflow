@@ -1,10 +1,10 @@
 # Especificación: ChronoFlow
 
 ## Documento de Especificación (SDD)
-**Versión**: 1.1
-**Fecha**: 2026-03-20
+**Versión**: 1.2
+**Fecha**: 2026-03-21
 **Estado**: Aprobado
-**Rama**: claude/analyze-project-eIQuu
+**Rama**: main
 
 ---
 
@@ -57,6 +57,7 @@ Este proyecto documenta y establece un **proceso metodológico de Specification-
 | RF-03.2 | Timer countdown | **Given** modo = TIMER con `targetMs` configurado, **When** usuario inicia, **Then** display muestra `targetMs - elapsedMs` y llega exactamente a 00:00:00.00 |
 | RF-03.3 | Pomodoro preset | **Given** modo = POMODORO, **When** ciclo de trabajo (25min) termina, **Then** automáticamente inicia ciclo de descanso (5min) con alerta entre cada fase |
 | RF-03.4 | Presets personalizables | **Given** usuario guarda preset con nombre y minutos, **Then** aparece en la lista de presets y persiste en `localStorage` tras recargar |
+| RF-03.5 | Configuración de tiempo countdown | **Given** modo = TIMER o POMODORO, **When** usuario selecciona modo, **Then** aparecen inputs para configurar min/seg (TIMER) o selector de fases 25/5/15min (POMODORO) |
 
 ### RF-04: Historial y Sesiones (Fase 2)
 **Prioridad**: Baja | **Estado**: Optional
@@ -76,6 +77,25 @@ Este proyecto documenta y establece un **proceso metodológico de Specification-
 | RF-05.1 | Crear timers múltiples | **Given** usuario presiona "+ Timer", **When** cuenta actual < 4, **Then** se agrega nuevo timer en estado IDLE con ID único |
 | RF-05.2 | Visualización múltiple | **Given** ≥ 2 timers activos, **Then** layout cambia a grid 2x2, cada timer muestra su estado independiente |
 | RF-05.3 | Labels por timer | **Given** timer creado, **When** usuario edita label, **Then** label máximo 30 caracteres se muestra sobre el display |
+
+### RF-06: Label Configurable del Timer
+**Prioridad**: Media | **Estado**: Required
+
+| ID | Descripción | Criterio de Aceptación (Given/When/Then) |
+|----|-------------|------------------------------------------|
+| RF-06.1 | Input de etiqueta | **Given** timer en cualquier estado, **When** usuario ve la UI, **Then** hay un campo de texto editable sobre el display para describir el timer |
+| RF-06.2 | Persistencia del label | **Given** usuario escribe un label, **When** cierra y reabre la app, **Then** el label se restaura desde localStorage |
+| RF-06.3 | Uso en notificaciones | **Given** timer countdown llega a 0 con label configurado, **When** se dispara alerta, **Then** el mensaje incluye el label: "¡{label} completado!" |
+
+### RF-07: Información de Hora de Finalización
+**Prioridad**: Media | **Estado**: Required
+
+| ID | Descripción | Criterio de Aceptación (Given/When/Then) |
+|----|-------------|------------------------------------------|
+| RF-07.1 | Hora actual | **Given** modo = TIMER o POMODORO, **When** usuario ve la UI, **Then** muestra "Ahora: HH:MM" actualizado cada segundo |
+| RF-07.2 | Hora de término estimada | **Given** modo countdown con tiempo configurado, **When** usuario ve la UI, **Then** muestra "Termina: HH:MM" calculado como hora actual + tiempo restante |
+| RF-07.3 | Actualización dinámica | **Given** timer está corriendo, **When** pasa el tiempo, **Then** la hora de término se recalcula en tiempo real |
+| RF-07.4 | Oculto en stopwatch | **Given** modo = STOPWATCH, **Then** la sección de información de hora no se muestra |
 
 ---
 
@@ -459,6 +479,7 @@ chronoflow/
 |---------|-------|-------|---------|
 | 1.0 | 2026-03-19 | OpenBot | Especificación inicial |
 | 1.1 | 2026-03-20 | Claude | Máquina de estados, contratos de módulos, Given/When/Then, manejo de errores, reglas de negocio |
+| 1.2 | 2026-03-21 | Claude | Agregados RF-03.5 (config tiempo countdown), RF-06 (label configurable), RF-07 (info hora fin) |
 
 ---
 
