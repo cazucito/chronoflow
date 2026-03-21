@@ -41,6 +41,12 @@ const App = {
       timer.setMode(prefs.defaultMode);
       UI.showModeSelector(prefs.defaultMode);
     }
+    
+    // Cargar último label
+    const lastLabel = Storage.getLastLabel();
+    if (lastLabel && UI) {
+      UI.setTimerLabel(lastLabel);
+    }
   },
 
   /**
@@ -73,6 +79,17 @@ const App = {
       }
     });
 
+    // Guardar label cuando cambie
+    const labelInput = document.getElementById('timer-label');
+    if (labelInput) {
+      labelInput.addEventListener('change', () => {
+        Storage.setLastLabel(labelInput.value);
+      });
+      labelInput.addEventListener('blur', () => {
+        Storage.setLastLabel(labelInput.value);
+      });
+    }
+
     // Antes de cerrar — guardar estado del timer si está corriendo
     window.addEventListener('beforeunload', () => {
       const state = timer.getState();
@@ -85,6 +102,10 @@ const App = {
           targetMs: timer.targetMs,
           savedAt: Date.now()
         }));
+      }
+      // Guardar label actual
+      if (labelInput) {
+        Storage.setLastLabel(labelInput.value);
       }
     });
 
@@ -148,7 +169,12 @@ const App = {
 
     // Guardar sesión al completar (para Fase 3)
     document.addEventListener('timer:complete', async (e) => {
-      console.log('Timer completado:', e.detail);
+      const label = UI.getTimerLabel();
+      console.log('Timer completado:', e.detail, 'Label:', label);
+      
+      // Usar label en notificación si existe
+      const message = label ? `¡${label} completado!` : '¡Tiempo completado!';
+      Notifications.sendAlert(message, 'ChronoFlow');
       
       // Fase 3: Guardar en IndexedDB
       // const session = { ... }

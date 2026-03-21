@@ -23,12 +23,17 @@ const UI = {
       pomodoroConfig: document.getElementById('pomodoro-config'),
       timerMin: document.getElementById('timer-min'),
       timerSec: document.getElementById('timer-sec'),
+      timerLabel: document.getElementById('timer-label'),
+      timeInfo: document.getElementById('time-info'),
+      currentTime: document.getElementById('current-time'),
+      endTime: document.getElementById('end-time'),
       app: document.getElementById('app')
     };
 
     this._bindEvents();
     this._bindAria();
     this._updateConfigVisibility('stopwatch');
+    this._startTimeInfoUpdates();
   },
 
   /**
@@ -43,6 +48,9 @@ const UI = {
     
     // RF-04.4: Actualizar aria-live para screen readers
     this.elements.display.setAttribute('aria-label', `${formatted} transcurridos`);
+    
+    // Actualizar hora de fin en tiempo real
+    this._updateEndTime();
   },
 
   /**
@@ -238,13 +246,87 @@ const UI = {
    * @param {string} mode — modo seleccionado (stopwatch/timer/pomodoro)
    */
   _updateConfigVisibility(mode) {
-    const { timerConfig, pomodoroConfig } = this.elements;
+    const { timerConfig, pomodoroConfig, timeInfo } = this.elements;
     
     if (timerConfig) {
       timerConfig.classList.toggle('hidden', mode !== 'timer');
     }
     if (pomodoroConfig) {
       pomodoroConfig.classList.toggle('hidden', mode !== 'pomodoro');
+    }
+    // Mostrar info de tiempo solo en modos countdown
+    if (timeInfo) {
+      const showTimeInfo = mode === 'timer' || mode === 'pomodoro';
+      timeInfo.classList.toggle('hidden', !showTimeInfo);
+    }
+  },
+
+  /**
+   * Inicia actualizaciones periódicas de la información de tiempo.
+   * @private
+   */
+  _startTimeInfoUpdates() {
+    // Actualizar hora actual cada segundo
+    setInterval(() => {
+      this._updateCurrentTime();
+      this._updateEndTime();
+    }, 1000);
+    
+    // Actualizar inmediatamente
+    this._updateCurrentTime();
+    this._updateEndTime();
+  },
+
+  /**
+   * Actualiza la hora actual mostrada.
+   * @private
+   */
+  _updateCurrentTime() {
+    if (!this.elements.currentTime) return;
+    
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    this.elements.currentTime.textContent = `${hours}:${minutes}`;
+  },
+
+  /**
+   * Actualiza la hora de finalización estimada.
+   * @private
+   */
+  _updateEndTime() {
+    if (!this.elements.endTime) return;
+    
+    const state = timer.getState();
+    const mode = timer.mode;
+    
+    // Solo calcular en modos countdown cuando hay tiempo configurado
+    if ((mode === 'TIMER' || mode === 'POMODORO') && state.displayMs > 0) {
+      const remainingMs = state.displayMs;
+      const endTime = new Date(Date.now() + remainingMs);
+      const hours = String(endTime.getHours()).padStart(2, '0');
+      const minutes = String(endTime.getMinutes()).padStart(2, '0');
+      this.elements.endTime.textContent = `${hours}:${minutes}`;
+    } else {
+      this.elements.endTime.textContent = '--:--';
+    }
+  },
+
+  /**
+   * Obtiene el label configurado por el usuario.
+   * @returns {string} — label del timer
+   */
+  getTimerLabel() {
+    return this.elements.timerLabel?.value?.trim() || '';
+  },
+
+  /**
+   * Establece el label del timer.
+   * @param {string} label — texto del label
+   */
+  setTimerLabel(label) {
+    if (this.elements.timerLabel) {
+      this.elements.timerLabel.value = label;
     }
   },
 

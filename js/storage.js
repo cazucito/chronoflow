@@ -8,7 +8,8 @@ const Storage = {
   // Keys para localStorage
   KEYS: {
     PREFS: 'cf_prefs',
-    PRESETS: 'cf_presets'
+    PRESETS: 'cf_presets',
+    LAST_LABEL: 'cf_last_label'
   },
 
   // Configuración por defecto
@@ -126,6 +127,30 @@ const Storage = {
       }));
     } else {
       console.error(`Storage: Error al ${context}`, error);
+    }
+  },
+
+  /**
+   * Obtiene el último label usado.
+   * @returns {string}
+   */
+  getLastLabel() {
+    try {
+      return localStorage.getItem(this.KEYS.LAST_LABEL) || '';
+    } catch (e) {
+      return '';
+    }
+  },
+
+  /**
+   * Guarda el último label usado.
+   * @param {string} label — label a guardar
+   */
+  setLastLabel(label) {
+    try {
+      localStorage.setItem(this.KEYS.LAST_LABEL, label);
+    } catch (e) {
+      // Silencioso — no es crítico
     }
   }
 };

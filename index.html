@@ -40,10 +40,34 @@
         </header>
         
         <main class="app-main" role="main" aria-label="Cronómetro">
+            <!-- Label configurable -->
+            <section class="timer-label-section" aria-label="Etiqueta del timer">
+                <input 
+                    type="text" 
+                    id="timer-label" 
+                    class="timer-label-input" 
+                    placeholder="¿Qué estás cronometrando?"
+                    value=""
+                    aria-label="Descripción del timer">
+            </section>
+            
             <section class="timer-display" aria-live="polite" aria-atomic="true">
                 <time id="time-display" datetime="PT0S" role="timer" aria-label="00:00:00.00">
                     00:00:00.00
                 </time>
+            </section>
+            
+            <!-- Hora actual y hora de finalización (solo para countdown) -->
+            <section id="time-info" class="time-info hidden" aria-label="Información de tiempo">
+                <div class="time-info-item">
+                    <span class="time-info-label">Ahora:</span>
+                    <time id="current-time" class="time-info-value">--:--</time>
+                </div>
+                <div class="time-info-separator">→</div>
+                <div class="time-info-item">
+                    <span class="time-info-label">Termina:</span>
+                    <time id="end-time" class="time-info-value">--:--</time>
+                </div>
             </section>
             
             <nav class="timer-controls" role="toolbar" aria-label="Controles del cronómetro">
