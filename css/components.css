@@ -1,0 +1,161 @@
+/**
+ * ChronoFlow — Componentes UI
+ * Display, botones, controles
+ */
+
+/* Timer Display */
+.timer-display {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  margin: 0 auto;
+  width: 100%;
+}
+
+#time-display {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 10vw, var(--font-size-display));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  display: block;
+  line-height: 1.1;
+}
+
+#time-display.pulse {
+  animation: pulse-alert 2s ease-in-out infinite;
+}
+
+@keyframes pulse-alert {
+  0%, 100% {
+    color: var(--color-text);
+  }
+  50% {
+    color: var(--color-alert);
+  }
+}
+
+/* Estados del display */
+.alert-active .timer-display {
+  background: linear-gradient(135deg, var(--color-alert) 0%, #ff6b6b 100%);
+  animation: bg-pulse 2s ease-in-out infinite;
+}
+
+.alert-active #time-display {
+  color: white;
+}
+
+@keyframes bg-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Timer Controls */
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Button variants */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: var(--color-paused);
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #e68900;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-tertiary {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn-tertiary:hover:not(:disabled) {
+  background-color: var(--color-border);
+}
+
+/* Mode Selector */
+.mode-selector {
+  text-align: center;
+  padding: var(--space-lg) 0;
+}
+
+.mode-selector select {
+  min-height: var(--touch-target);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.mode-selector select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+/* Focus visible para accesibilidad */
+.btn:focus-visible,
+.mode-selector select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,133 @@
+/**
+ * ChronoFlow — Responsive breakpoints
+ * Mobile-first: 320px hasta 1920px
+ */
+
+/* Tablet y desktop pequeño */
+@media (min-width: 480px) {
+  #app {
+    padding: var(--space-xl);
+  }
+  
+  .timer-display {
+    padding: var(--space-2xl);
+  }
+  
+  .timer-controls {
+    gap: var(--space-lg);
+  }
+  
+  .btn {
+    padding: var(--space-md) var(--space-xl);
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  #app {
+    max-width: 700px;
+    padding: var(--space-2xl);
+  }
+  
+  .app-header h1 {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .timer-display {
+    padding: 4rem var(--space-2xl);
+  }
+  
+  #time-display {
+    font-size: var(--font-size-display);
+  }
+  
+  .timer-controls {
+    gap: var(--space-xl);
+  }
+  
+  .btn {
+    min-width: 120px;
+    padding: var(--space-md) var(--space-2xl);
+  }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1200px) {
+  #app {
+    max-width: 800px;
+  }
+  
+  .timer-display {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* Móvil pequeño — optimizaciones */
+@media (max-width: 360px) {
+  #app {
+    padding: var(--space-md);
+  }
+  
+  .app-header h1 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .timer-display {
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  #time-display {
+    font-size: 2rem;
+  }
+  
+  .timer-controls {
+    gap: var(--space-sm);
+  }
+  
+  .btn {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-sm);
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Landscape en móvil */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app-header {
+    padding: var(--space-sm) 0;
+  }
+  
+  .app-header h1 {
+    font-size: var(--font-size-lg);
+  }
+  
+  .timer-display {
+    padding: var(--space-md);
+  }
+  
+  #time-display {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .app-footer {
+    padding: var(--space-sm) 0;
+  }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .btn:disabled {
+    border-style: dashed;
+  }
+  
+  #time-display {
+    font-weight: 900;
+  }
+}

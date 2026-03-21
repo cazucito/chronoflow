@@ -2,18 +2,27 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ChronoFlow - Cronómetro PWA elegante y simple">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="ChronoFlow - Cronómetro PWA elegante, simple y sin fricción. Funciona offline.">
     <meta name="theme-color" content="#4CAF50">
+    <meta name="color-scheme" content="light dark">
     
-    <title>ChronoFlow</title>
-    
-    <!-- PWA Manifest -->
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     
     <!-- Icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
     <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    
+    <!-- Apple PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ChronoFlow">
+    
+    <title>ChronoFlow</title>
+    
+    <!-- Preconnect para performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     
     <!-- Styles -->
     <link rel="stylesheet" href="css/main.css">
@@ -23,42 +32,69 @@
 </head>
 <body>
     <div id="app">
-        <!-- App shell - se llena con JS -->
-        <header class="app-header">
-            <h1>⏱️ ChronoFlow</h1>
+        <header class="app-header" role="banner">
+            <h1>
+                <span aria-hidden="true">⏱️</span>
+                <span>ChronoFlow</span>
+            </h1>
         </header>
         
-        <main class="app-main">
-            <div class="timer-display">
-                <span id="time-display">00:00:00.00</span>
-            </div>
+        <main class="app-main" role="main" aria-label="Cronómetro">
+            <section class="timer-display" aria-live="polite" aria-atomic="true">
+                <time id="time-display" datetime="PT0S" role="timer" aria-label="00:00:00.00">
+                    00:00:00.00
+                </time>
+            </section>
             
-            <div class="timer-controls">
-                <button id="btn-start" class="btn btn-primary">Iniciar</button>
-                <button id="btn-pause" class="btn btn-secondary" disabled>Pausar</button>
-                <button id="btn-reset" class="btn btn-tertiary">Reset</button>
-            </div>
+            <nav class="timer-controls" role="toolbar" aria-label="Controles del cronómetro">
+                <button 
+                    id="btn-start" 
+                    class="btn btn-primary" 
+                    type="button"
+                    aria-label="Iniciar cronómetro">
+                    Iniciar
+                </button>
+                <button 
+                    id="btn-pause" 
+                    class="btn btn-secondary" 
+                    type="button"
+                    disabled
+                    aria-label="Pausar cronómetro">
+                    Pausar
+                </button>
+                <button 
+                    id="btn-reset" 
+                    class="btn btn-tertiary" 
+                    type="button"
+                    aria-label="Reiniciar cronómetro">
+                    Reset
+                </button>
+            </nav>
             
-            <div class="mode-selector">
-                <select id="timer-mode">
+            <section class="mode-selector" aria-label="Selector de modo">
+                <label for="timer-mode" class="sr-only">Modo de cronómetro</label>
+                <select id="timer-mode" name="timer-mode">
                     <option value="stopwatch">Cronómetro</option>
                     <option value="timer">Timer</option>
                     <option value="pomodoro">Pomodoro</option>
                 </select>
-            </div>
+            </section>
         </main>
         
-        <footer class="app-footer">
-            <p>ChronoFlow v1.0 - PWA</p>
+        <footer class="app-footer" role="contentinfo">
+            <p>ChronoFlow v1.0 — PWA</p>
+            <p class="sr-only">
+                Atajos de teclado: Espacio para iniciar/pausar, R para resetear.
+            </p>
         </footer>
     </div>
     
     <!-- Scripts -->
-    <script src="js/app.js"></script>
-    <script src="js/timer.js"></script>
-    <script src="js/ui.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/timer.js"></script>
     <script src="js/notifications.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/pwa.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
