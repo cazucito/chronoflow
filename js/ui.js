@@ -182,6 +182,8 @@ const UI = {
         timer.setMode(mode);
         this._updateConfigVisibility(e.target.value);
         this._updateDisplayForMode(mode);
+        // Actualizar hora de fin al cambiar de modo
+        setTimeout(() => this._updateEndTime(), 0);
       });
     }
 
@@ -191,8 +193,20 @@ const UI = {
       btn.addEventListener('click', () => {
         pomodoroButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        // Actualizar hora de fin al cambiar fase
+        this._updateEndTime();
       });
     });
+
+    // Actualizar hora de fin cuando cambian los inputs de tiempo
+    if (this.elements.timerMin) {
+      this.elements.timerMin.addEventListener('input', () => this._updateEndTime());
+      this.elements.timerMin.addEventListener('change', () => this._updateEndTime());
+    }
+    if (this.elements.timerSec) {
+      this.elements.timerSec.addEventListener('input', () => this._updateEndTime());
+      this.elements.timerSec.addEventListener('change', () => this._updateEndTime());
+    }
 
     // Atajos de teclado (RF-04)
     document.addEventListener('keydown', (e) => {
@@ -247,7 +261,7 @@ const UI = {
    */
   _updateConfigVisibility(mode) {
     const { timerConfig, pomodoroConfig, timeInfo } = this.elements;
-    
+
     if (timerConfig) {
       timerConfig.classList.toggle('hidden', mode !== 'timer');
     }
@@ -258,6 +272,10 @@ const UI = {
     if (timeInfo) {
       const showTimeInfo = mode === 'timer' || mode === 'pomodoro';
       timeInfo.classList.toggle('hidden', !showTimeInfo);
+      // Actualizar hora de fin después de que el DOM se actualice
+      if (showTimeInfo) {
+        requestAnimationFrame(() => this._updateEndTime());
+      }
     }
   },
 
@@ -296,17 +314,43 @@ const UI = {
    */
   _updateEndTime() {
     if (!this.elements.endTime) return;
-    
+
     const state = timer.getState();
     const mode = timer.mode;
-    
-    // Solo calcular en modos countdown cuando hay tiempo configurado
-    if ((mode === 'TIMER' || mode === 'POMODORO') && state.displayMs > 0) {
-      const remainingMs = state.displayMs;
+
+    // Solo mostrar en modos countdown
+    if (mode !== 'TIMER' && mode !== 'POMODORO') {
+      this.elements.endTime.textContent = '--:--';
+      return;
+    }
+
+    let remainingMs = 0;
+
+    // Si está corriendo o pausado, usar el tiempo restante del estado
+    if (state.state === 'RUNNING' || state.state === 'PAUSED') {
+      remainingMs = state.displayMs;
+    } else {
+      // En IDLE, calcular desde los inputs
+      if (mode === 'TIMER') {
+        const min = parseInt(this.elements.timerMin?.value || '0', 10);
+        const sec = parseInt(this.elements.timerSec?.value || '0', 10);
+        remainingMs = (min * 60 + sec) * 1000;
+      } else if (mode === 'POMODORO') {
+        const activeBtn = document.querySelector('.btn-pomodoro.active');
+        const min = parseInt(activeBtn?.dataset.min || '25', 10);
+        remainingMs = min * 60 * 1000;
+      }
+    }
+
+    // Calcular y mostrar hora de fin si hay tiempo válido
+    if (remainingMs > 0) {
       const endTime = new Date(Date.now() + remainingMs);
       const hours = String(endTime.getHours()).padStart(2, '0');
       const minutes = String(endTime.getMinutes()).padStart(2, '0');
       this.elements.endTime.textContent = `${hours}:${minutes}`;
+    } else {
+      this.elements.endTime.textContent = '--:--';
+    }
     } else {
       this.elements.endTime.textContent = '--:--';
     }
@@ -348,6 +392,8 @@ const UI = {
     } else {
       this.updateDisplay(0);
     }
+    // Actualizar hora de fin también
+    this._updateEndTime();
   },
 
   /**
