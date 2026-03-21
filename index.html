@@ -104,6 +104,43 @@
                 </select>
             </section>
             
+            <!-- Selector de temas visuales -->
+            <section class="theme-selector" aria-label="Selector de tema visual">
+                <label for="theme-select" class="sr-only">Tema visual</label>
+                <select id="theme-select" name="theme">
+                    <option value="minimal">⚪ Minimal</option>
+                    <option value="nature">🌿 Nature</option>
+                    <option value="ocean">🌊 Ocean</option>
+                    <option value="dark">🌙 Dark</option>
+                    <option value="custom">🎨 Personalizado</option>
+                </select>
+            </section>
+            
+            <!-- Configuración de tema personalizado -->
+            <section id="custom-theme-config" class="custom-theme-config hidden" aria-label="Configuración de tema personalizado">
+                <h3>Personalizar tema</h3>
+                <div class="custom-theme-grid">
+                    <div class="custom-theme-field">
+                        <label for="custom-primary">Color principal</label>
+                        <input type="color" id="custom-primary" value="#4CAF50">
+                    </div>
+                    <div class="custom-theme-field">
+                        <label for="custom-bg">Color fondo</label>
+                        <input type="color" id="custom-bg" value="#ffffff">
+                    </div>
+                    <div class="custom-theme-field">
+                        <label for="custom-text">Color texto</label>
+                        <input type="color" id="custom-text" value="#212121">
+                    </div>
+                    <div class="custom-theme-field">
+                        <label for="custom-radius">Bordes (px)</label>
+                        <input type="range" id="custom-radius" min="0" max="20" value="8">
+                        <span id="custom-radius-value">8px</span>
+                    </div>
+                </div>
+                <button type="button" id="btn-save-custom" class="btn btn-primary btn-save-custom">Guardar tema</button>
+            </section>
+            
             <!-- Configuración de tiempo para Timer -->
             <section id="timer-config" class="timer-config hidden" aria-label="Configuración de tiempo">
                 <div class="time-inputs">

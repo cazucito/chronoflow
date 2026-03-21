@@ -33,9 +33,6 @@ const App = {
   _loadPreferences() {
     const prefs = Storage.getPreferences();
     
-    // Aplicar tema
-    this._applyTheme(prefs.theme);
-    
     // Aplicar modo por defecto
     if (prefs.defaultMode && timer) {
       timer.setMode(prefs.defaultMode);

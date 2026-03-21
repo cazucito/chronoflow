@@ -97,6 +97,21 @@ Este proyecto documenta y establece un **proceso metodológico de Specification-
 | RF-07.3 | Actualización dinámica | **Given** timer está corriendo, **When** pasa el tiempo, **Then** la hora de término se recalcula en tiempo real |
 | RF-07.4 | Oculto en stopwatch | **Given** modo = STOPWATCH, **Then** la sección de información de hora no se muestra |
 
+### RF-08: Temas Visuales
+**Prioridad**: Media | **Estado**: Required
+
+| ID | Descripción | Criterio de Aceptación (Given/When/Then) |
+|----|-------------|------------------------------------------|
+| RF-08.1 | Selector de temas | **Given** usuario ve la UI, **When** accede a configuración o selector de tema, **Then** hay opciones para elegir entre 5 temas visuales distintos |
+| RF-08.2 | Tema Minimal | **Given** tema = MINIMAL seleccionado, **Then** UI usa paleta monocromática blanco/gris/negro, sin gradientes, bordes cuadrados (2px radius), tipografía limpia sin serifa |
+| RF-08.3 | Tema Nature | **Given** tema = NATURE seleccionado, **Then** UI usa paleta verde bosque (#2E7D32) y tierra (#8D6E63), bordes orgánicos redondeados (12px radius), acentos de tonos naturales |
+| RF-08.4 | Tema Ocean | **Given** tema = OCEAN seleccionado, **Then** UI usa paleta azul profundo (#1565C0) y cyan (#00BCD4), gradientes de agua suaves, efectos de profundidad |
+| RF-08.5 | Tema Dark | **Given** tema = DARK seleccionado, **Then** UI usa fondo oscuro (#121212), superficie gris oscuro (#1E1E1E), texto blanco, acentos neón (#76FF03), alto contraste |
+| RF-08.6 | Tema Personalizable | **Given** tema = CUSTOM seleccionado, **When** usuario abre panel de personalización, **Then** puede configurar: color primario, color de fondo, color de texto, radio de bordes (0-20px) |
+| RF-08.7 | Diferenciación visual | **Given** cualquier par de temas seleccionados, **Then** la diferencia visual entre ellos es notable e inmediata (colores, formas, atmósfera distintas) |
+| RF-08.8 | Persistencia de tema | **Given** usuario selecciona un tema, **When** cierra y reabre la app, **Then** el tema seleccionado se restaura desde localStorage |
+| RF-08.9 | Cambio en tiempo real | **Given** usuario cambia de tema, **When** selecciona nuevo tema, **Then** la UI actualiza inmediatamente sin recargar la página |
+
 ---
 
 ## 3. Requerimientos No-Funcionales

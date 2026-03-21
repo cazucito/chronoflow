@@ -9,7 +9,9 @@ const Storage = {
   KEYS: {
     PREFS: 'cf_prefs',
     PRESETS: 'cf_presets',
-    LAST_LABEL: 'cf_last_label'
+    LAST_LABEL: 'cf_last_label',
+    THEME: 'cf_theme',
+    CUSTOM_THEME: 'cf_custom_theme'
   },
 
   // Configuración por defecto
@@ -152,6 +154,69 @@ const Storage = {
     } catch (e) {
       // Silencioso — no es crítico
     }
+  },
+
+  /**
+   * Obtiene el tema guardado.
+   * @returns {string} — nombre del tema
+   */
+  getTheme() {
+    try {
+      return localStorage.getItem(this.KEYS.THEME) || 'minimal';
+    } catch (e) {
+      return 'minimal';
+    }
+  },
+
+  /**
+   * Guarda el tema seleccionado.
+   * @param {string} theme — nombre del tema
+   */
+  setTheme(theme) {
+    try {
+      localStorage.setItem(this.KEYS.THEME, theme);
+    } catch (e) {
+      // Silencioso
+    }
+  },
+
+  /**
+   * Obtiene configuración de tema personalizado.
+   * @returns {Object} — config del tema custom
+   */
+  getCustomTheme() {
+    try {
+      const stored = localStorage.getItem(this.KEYS.CUSTOM_THEME);
+      return stored ? JSON.parse(stored) : this._getDefaultCustomTheme();
+    } catch (e) {
+      return this._getDefaultCustomTheme();
+    }
+  },
+
+  /**
+   * Guarda configuración de tema personalizado.
+   * @param {Object} config — config del tema
+   */
+  setCustomTheme(config) {
+    try {
+      localStorage.setItem(this.KEYS.CUSTOM_THEME, JSON.stringify(config));
+    } catch (e) {
+      // Silencioso
+    }
+  },
+
+  /**
+   * Configuración por defecto del tema personalizado.
+   * @private
+   * @returns {Object}
+   */
+  _getDefaultCustomTheme() {
+    return {
+      primary: '#4CAF50',
+      background: '#ffffff',
+      text: '#212121',
+      radius: 8
+    };
   }
 };
 

@@ -27,6 +27,14 @@ const UI = {
       timeInfo: document.getElementById('time-info'),
       currentTime: document.getElementById('current-time'),
       endTime: document.getElementById('end-time'),
+      themeSelect: document.getElementById('theme-select'),
+      customThemeConfig: document.getElementById('custom-theme-config'),
+      customPrimary: document.getElementById('custom-primary'),
+      customBg: document.getElementById('custom-bg'),
+      customText: document.getElementById('custom-text'),
+      customRadius: document.getElementById('custom-radius'),
+      customRadiusValue: document.getElementById('custom-radius-value'),
+      btnSaveCustom: document.getElementById('btn-save-custom'),
       app: document.getElementById('app')
     };
 
@@ -34,6 +42,7 @@ const UI = {
     this._bindAria();
     this._updateConfigVisibility('stopwatch');
     this._startTimeInfoUpdates();
+    this._initTheme();
   },
 
   /**
@@ -208,6 +217,48 @@ const UI = {
       this.elements.timerSec.addEventListener('change', () => this._updateEndTime());
     }
 
+    // Selector de temas
+    if (this.elements.themeSelect) {
+      this.elements.themeSelect.addEventListener('change', (e) => {
+        const theme = e.target.value;
+        this._applyTheme(theme);
+        this._updateThemeConfigVisibility(theme);
+      });
+    }
+
+    // Configuración de tema personalizado
+    if (this.elements.customRadius) {
+      this.elements.customRadius.addEventListener('input', (e) => {
+        if (this.elements.customRadiusValue) {
+          this.elements.customRadiusValue.textContent = `${e.target.value}px`;
+        }
+      });
+    }
+
+    if (this.elements.btnSaveCustom) {
+      this.elements.btnSaveCustom.addEventListener('click', () => {
+        const config = {
+          primary: this.elements.customPrimary?.value || '#4CAF50',
+          background: this.elements.customBg?.value || '#ffffff',
+          text: this.elements.customText?.value || '#212121',
+          radius: parseInt(this.elements.customRadius?.value || '8', 10)
+        };
+        Storage.setCustomTheme(config);
+        this._applyCustomThemeVars();
+      });
+    }
+
+    // Actualizar custom theme en tiempo real al cambiar inputs
+    ['customPrimary', 'customBg', 'customText', 'customRadius'].forEach(id => {
+      if (this.elements[id]) {
+        this.elements[id].addEventListener('input', () => {
+          if (Storage.getTheme() === 'custom') {
+            this._applyCustomThemeVars();
+          }
+        });
+      }
+    });
+
     // Atajos de teclado (RF-04)
     document.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
@@ -368,6 +419,129 @@ const UI = {
   setTimerLabel(label) {
     if (this.elements.timerLabel) {
       this.elements.timerLabel.value = label;
+    }
+  },
+
+  /**
+   * Inicializa el tema visual.
+   * @private
+   */
+  _initTheme() {
+    const savedTheme = Storage.getTheme();
+    this._applyTheme(savedTheme);
+    
+    if (this.elements.themeSelect) {
+      this.elements.themeSelect.value = savedTheme;
+    }
+    
+    // Cargar config custom si aplica
+    if (savedTheme === 'custom') {
+      this._loadCustomThemeConfig();
+    }
+  },
+
+  /**
+   * Aplica un tema visual.
+   * @private
+   * @param {string} theme — nombre del tema
+   */
+  _applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Si es custom, aplicar variables CSS
+    if (theme === 'custom') {
+      this._applyCustomThemeVars();
+    }
+    
+    // Guardar preferencia
+    Storage.setTheme(theme);
+  },
+
+  /**
+   * Carga configuración del tema personalizado.
+   * @private
+   */
+  _loadCustomThemeConfig() {
+    const config = Storage.getCustomTheme();
+    
+    if (this.elements.customPrimary) {
+      this.elements.customPrimary.value = config.primary;
+    }
+    if (this.elements.customBg) {
+      this.elements.customBg.value = config.background;
+    }
+    if (this.elements.customText) {
+      this.elements.customText.value = config.text;
+    }
+    if (this.elements.customRadius) {
+      this.elements.customRadius.value = config.radius;
+    }
+    if (this.elements.customRadiusValue) {
+      this.elements.customRadiusValue.textContent = `${config.radius}px`;
+    }
+    
+    this._applyCustomThemeVars();
+  },
+
+  /**
+   * Aplica variables CSS del tema personalizado.
+   * @private
+   */
+  _applyCustomThemeVars() {
+    const config = Storage.getCustomTheme();
+    const root = document.documentElement;
+    
+    root.style.setProperty('--custom-primary', config.primary);
+    root.style.setProperty('--custom-primary-dark', this._darkenColor(config.primary, 20));
+    root.style.setProperty('--custom-primary-light', this._lightenColor(config.primary, 20));
+    root.style.setProperty('--custom-bg', config.background);
+    root.style.setProperty('--custom-surface', this._lightenColor(config.background, 5));
+    root.style.setProperty('--custom-text', config.text);
+    root.style.setProperty('--custom-text-secondary', this._lightenColor(config.text, 40));
+    root.style.setProperty('--custom-border', this._lightenColor(config.background, 10));
+    root.style.setProperty('--custom-radius', `${config.radius}px`);
+  },
+
+  /**
+   * Oscurece un color hexadecimal.
+   * @private
+   * @param {string} color — color hex
+   * @param {number} percent — porcentaje
+   * @returns {string} — color oscurecido
+   */
+  _darkenColor(color, percent) {
+    const num = parseInt(color.replace('#', ''), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = Math.max((num >> 16) - amt, 0);
+    const G = Math.max((num >> 8 & 0x00FF) - amt, 0);
+    const B = Math.max((num & 0x0000FF) - amt, 0);
+    return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+  },
+
+  /**
+   * Aclara un color hexadecimal.
+   * @private
+   * @param {string} color — color hex
+   * @param {number} percent — porcentaje
+   * @returns {string} — color aclarado
+   */
+  _lightenColor(color, percent) {
+    const num = parseInt(color.replace('#', ''), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = Math.min((num >> 16) + amt, 255);
+    const G = Math.min((num >> 8 & 0x00FF) + amt, 255);
+    const B = Math.min((num & 0x0000FF) + amt, 255);
+    return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+  },
+
+  /**
+   * Muestra/oculta configuración de tema personalizado.
+   * @private
+   * @param {string} theme — tema seleccionado
+   */
+  _updateThemeConfigVisibility(theme) {
+    if (this.elements.customThemeConfig) {
+      this.elements.customThemeConfig.classList.toggle('hidden', theme !== 'custom');
     }
   },
 
