@@ -20,6 +20,9 @@ const App = {
     // Escuchar cambios de estado del timer para actualizar UI
     this._bindTimerEvents();
 
+    // Mostrar tiempo configurado inicialmente
+    this._updateDisplayForCurrentMode();
+
     console.log('ChronoFlow — Listo');
   },
 
@@ -136,6 +139,11 @@ const App = {
     // Actualizar botones en cambio de estado
     document.addEventListener('timer:statechange', (e) => {
       UI.setButtonState(e.detail.to);
+      
+      // Al resetear, mostrar tiempo configurado para TIMER/POMODORO
+      if (e.detail.to === 'IDLE') {
+        this._updateDisplayForCurrentMode();
+      }
     });
 
     // Guardar sesión al completar (para Fase 3)
@@ -146,6 +154,26 @@ const App = {
       // const session = { ... }
       // await HistoryDB.saveSession(session);
     });
+  },
+
+  /**
+   * Actualiza el display según el modo actual y configuración.
+   * @private
+   */
+  _updateDisplayForCurrentMode() {
+    const mode = timer.mode;
+    
+    if (mode === 'TIMER') {
+      const min = parseInt(document.getElementById('timer-min')?.value || '0', 10);
+      const sec = parseInt(document.getElementById('timer-sec')?.value || '0', 10);
+      UI.updateDisplay((min * 60 + sec) * 1000);
+    } else if (mode === 'POMODORO') {
+      const activeBtn = document.querySelector('.btn-pomodoro.active');
+      const min = parseInt(activeBtn?.dataset.min || '25', 10);
+      UI.updateDisplay(min * 60 * 1000);
+    } else {
+      UI.updateDisplay(0);
+    }
   }
 };
 

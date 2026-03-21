@@ -19,11 +19,16 @@ const UI = {
       btnPause: document.getElementById('btn-pause'),
       btnReset: document.getElementById('btn-reset'),
       modeSelector: document.getElementById('timer-mode'),
+      timerConfig: document.getElementById('timer-config'),
+      pomodoroConfig: document.getElementById('pomodoro-config'),
+      timerMin: document.getElementById('timer-min'),
+      timerSec: document.getElementById('timer-sec'),
       app: document.getElementById('app')
     };
 
     this._bindEvents();
     this._bindAria();
+    this._updateConfigVisibility('stopwatch');
   },
 
   /**
@@ -144,9 +149,12 @@ const UI = {
 
     if (btnStart) {
       btnStart.addEventListener('click', () => {
-        if (timer.getState().state === 'PAUSED') {
+        const state = timer.getState().state;
+        if (state === 'PAUSED') {
           timer.resume();
         } else {
+          // Configurar tiempo objetivo antes de iniciar
+          this._configureTimerTarget();
           timer.start();
         }
       });
@@ -164,8 +172,19 @@ const UI = {
       modeSelector.addEventListener('change', (e) => {
         const mode = e.target.value.toUpperCase();
         timer.setMode(mode);
+        this._updateConfigVisibility(e.target.value);
+        this._updateDisplayForMode(mode);
       });
     }
+
+    // Botones de Pomodoro
+    const pomodoroButtons = document.querySelectorAll('.btn-pomodoro');
+    pomodoroButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pomodoroButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
 
     // Atajos de teclado (RF-04)
     document.addEventListener('keydown', (e) => {
@@ -181,6 +200,7 @@ const UI = {
             if (state === 'PAUSED') {
               timer.resume();
             } else {
+              this._configureTimerTarget();
               timer.start();
             }
           }
@@ -191,6 +211,61 @@ const UI = {
           break;
       }
     });
+  },
+
+  /**
+   * Configura el tiempo objetivo según el modo y los inputs.
+   * @private
+   */
+  _configureTimerTarget() {
+    const mode = timer.mode;
+    
+    if (mode === 'TIMER') {
+      const min = parseInt(this.elements.timerMin?.value || '0', 10);
+      const sec = parseInt(this.elements.timerSec?.value || '0', 10);
+      const targetMs = (min * 60 + sec) * 1000;
+      timer.targetMs = targetMs;
+    } else if (mode === 'POMODORO') {
+      const activeBtn = document.querySelector('.btn-pomodoro.active');
+      const min = parseInt(activeBtn?.dataset.min || '25', 10);
+      timer.targetMs = min * 60 * 1000;
+    }
+  },
+
+  /**
+   * Actualiza la visibilidad de las secciones de configuración.
+   * @private
+   * @param {string} mode — modo seleccionado (stopwatch/timer/pomodoro)
+   */
+  _updateConfigVisibility(mode) {
+    const { timerConfig, pomodoroConfig } = this.elements;
+    
+    if (timerConfig) {
+      timerConfig.classList.toggle('hidden', mode !== 'timer');
+    }
+    if (pomodoroConfig) {
+      pomodoroConfig.classList.toggle('hidden', mode !== 'pomodoro');
+    }
+  },
+
+  /**
+   * Actualiza el display inicial según el modo.
+   * @private
+   * @param {string} mode — modo seleccionado
+   */
+  _updateDisplayForMode(mode) {
+    if (mode === 'TIMER') {
+      const min = parseInt(this.elements.timerMin?.value || '0', 10);
+      const sec = parseInt(this.elements.timerSec?.value || '0', 10);
+      const ms = (min * 60 + sec) * 1000;
+      this.updateDisplay(ms);
+    } else if (mode === 'POMODORO') {
+      const activeBtn = document.querySelector('.btn-pomodoro.active');
+      const min = parseInt(activeBtn?.dataset.min || '25', 10);
+      this.updateDisplay(min * 60 * 1000);
+    } else {
+      this.updateDisplay(0);
+    }
   },
 
   /**

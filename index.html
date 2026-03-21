@@ -79,6 +79,39 @@
                     <option value="pomodoro">Pomodoro</option>
                 </select>
             </section>
+            
+            <!-- Configuración de tiempo para Timer -->
+            <section id="timer-config" class="timer-config hidden" aria-label="Configuración de tiempo">
+                <div class="time-inputs">
+                    <div class="time-field">
+                        <label for="timer-min">Min</label>
+                        <input type="number" id="timer-min" min="0" max="999" value="5" aria-label="Minutos">
+                    </div>
+                    <span class="time-separator">:</span>
+                    <div class="time-field">
+                        <label for="timer-sec">Seg</label>
+                        <input type="number" id="timer-sec" min="0" max="59" value="0" aria-label="Segundos">
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Configuración para Pomodoro -->
+            <section id="pomodoro-config" class="pomodoro-config hidden" aria-label="Configuración Pomodoro">
+                <div class="pomodoro-selector">
+                    <button type="button" class="btn-pomodoro active" data-phase="work" data-min="25">
+                        <span class="pomo-label">Trabajo</span>
+                        <span class="pomo-time">25:00</span>
+                    </button>
+                    <button type="button" class="btn-pomodoro" data-phase="short" data-min="5">
+                        <span class="pomo-label">Descanso</span>
+                        <span class="pomo-time">5:00</span>
+                    </button>
+                    <button type="button" class="btn-pomodoro" data-phase="long" data-min="15">
+                        <span class="pomo-label">Largo</span>
+                        <span class="pomo-time">15:00</span>
+                    </button>
+                </div>
+            </section>
         </main>
         
         <footer class="app-footer" role="contentinfo">
