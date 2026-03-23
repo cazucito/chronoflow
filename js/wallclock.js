@@ -60,6 +60,20 @@ class WallClock {
   _isActive = false;
 
   /**
+   * Hora de inicio del timer (fija)
+   * @type {Date|null}
+   * @private
+   */
+  _startTime = null;
+
+  /**
+   * Hora de finalización calculada (fija)
+   * @type {Date|null}
+   * @private
+   */
+  _endTime = null;
+
+  /**
    * Callback para actualizar display
    * @type {Function|null}
    * @private
@@ -92,7 +106,15 @@ class WallClock {
     this._updateDisplay(options.displayMs || 0);
     this._updateLabel(options.label || '');
     this._updateStatus(options.state || 'IDLE');
-    this._updateEndTime();
+    
+    // Si el timer ya está corriendo al abrir, calcular tiempos fijos
+    if (options.state === 'RUNNING' || options.state === 'PAUSED' || options.state === 'COMPLETED') {
+      if (!this._startTime) {
+        this._setStartTime();
+      }
+    } else {
+      this._resetFixedTimes();
+    }
     
     // Mostrar contenedor
     this._elements.container.classList.remove('hidden');
@@ -132,7 +154,8 @@ class WallClock {
     if (!this._isActive) return;
     
     this._updateDisplay(displayMs);
-    this._updateEndTime();
+    // No actualizamos _updateEndTime() aquí porque los tiempos son fijos
+    // Se establecen una vez al iniciar el timer via _setStartTime()
   }
 
   /**
@@ -250,13 +273,30 @@ class WallClock {
     });
 
     document.addEventListener('timer:statechange', (e) => {
-      this.updateStatus(e.detail.to);
-      this._updateControls(e.detail.to);
+      const newState = e.detail.to;
+      const fromState = e.detail.from;
+      
+      this.updateStatus(newState);
+      this._updateControls(newState);
+      
+      // Establecer tiempos fijos al iniciar (IDLE/PAUSED → RUNNING)
+      if (newState === 'RUNNING' && (fromState === 'IDLE' || fromState === 'PAUSED')) {
+        if (fromState === 'IDLE') {
+          // Solo establecer tiempos fijos si venimos de IDLE (nuevo inicio)
+          this._setStartTime();
+        }
+      }
+      
+      // Resetear tiempos al volver a IDLE
+      if (newState === 'IDLE') {
+        this._resetFixedTimes();
+      }
     });
 
     document.addEventListener('timer:complete', () => {
       this.updateStatus('COMPLETED');
       this._updateControls('COMPLETED');
+      // La hora de término ya está calculada desde el inicio
     });
   }
 
@@ -349,42 +389,77 @@ class WallClock {
 
   /**
    * Actualiza la hora de finalización.
+   * Usa los valores fijos establecidos al inicio.
    * @private
    */
   _updateEndTime() {
-    if (!this._elements.endTime) return;
-    
-    const state = timer?.getState?.();
-    const mode = timer?.mode;
-    
-    if (!state || (mode !== 'TIMER' && mode !== 'POMODORO')) {
-      this._elements.endTime.textContent = '--:--';
-      return;
-    }
+    // Este método ya no recalcula - usa los valores fijos
+    // Los tiempos se establecen una vez al iniciar via _setStartTime()
+    this._updateFixedTimes();
+  }
 
-    let endTimeDate = null;
+  /**
+   * Establece la hora de inicio y calcula hora de término.
+   * Se llama cuando el timer se inicia.
+   * @private
+   */
+  _setStartTime() {
+    this._startTime = new Date();
     
-    if (state.state === 'RUNNING' || state.state === 'PAUSED') {
-      // Calcular hora de fin basada en tiempo restante
-      endTimeDate = new Date(Date.now() + state.displayMs);
-    } else if (state.state === 'COMPLETED') {
-      // Si completó, la hora de fin es "ahora"
-      endTimeDate = new Date();
-    } else {
-      // IDLE: Calcular desde inputs
+    // Calcular hora de término basada en tiempo configurado
+    const mode = timer?.mode;
+    let durationMs = 0;
+    
+    if (mode === 'TIMER') {
       const min = parseInt(document.getElementById('timer-min')?.value || '0', 10);
       const sec = parseInt(document.getElementById('timer-sec')?.value || '0', 10);
-      const remainingMs = (min * 60 + sec) * 1000;
-      if (remainingMs > 0) {
-        endTimeDate = new Date(Date.now() + remainingMs);
-      }
+      durationMs = (min * 60 + sec) * 1000;
+    } else if (mode === 'POMODORO') {
+      const activeBtn = document.querySelector('.btn-pomodoro.active');
+      const min = parseInt(activeBtn?.dataset.min || '25', 10);
+      durationMs = min * 60 * 1000;
     }
+    
+    if (durationMs > 0) {
+      this._endTime = new Date(this._startTime.getTime() + durationMs);
+    }
+    
+    // Actualizar display con valores fijos
+    this._updateFixedTimes();
+  }
 
-    if (endTimeDate) {
-      const hours = String(endTimeDate.getHours()).padStart(2, '0');
-      const minutes = String(endTimeDate.getMinutes()).padStart(2, '0');
+  /**
+   * Actualiza los tiempos fijos de inicio y término en la UI.
+   * @private
+   */
+  _updateFixedTimes() {
+    // Mostrar hora de inicio
+    if (this._elements.currentTime && this._startTime) {
+      const hours = String(this._startTime.getHours()).padStart(2, '0');
+      const minutes = String(this._startTime.getMinutes()).padStart(2, '0');
+      this._elements.currentTime.textContent = `${hours}:${minutes}`;
+    }
+    
+    // Mostrar hora de término
+    if (this._elements.endTime && this._endTime) {
+      const hours = String(this._endTime.getHours()).padStart(2, '0');
+      const minutes = String(this._endTime.getMinutes()).padStart(2, '0');
       this._elements.endTime.textContent = `${hours}:${minutes}`;
-    } else {
+    }
+  }
+
+  /**
+   * Resetea los tiempos fijos.
+   * @private
+   */
+  _resetFixedTimes() {
+    this._startTime = null;
+    this._endTime = null;
+    
+    if (this._elements.currentTime) {
+      this._elements.currentTime.textContent = '--:--';
+    }
+    if (this._elements.endTime) {
       this._elements.endTime.textContent = '--:--';
     }
   }
@@ -394,17 +469,8 @@ class WallClock {
    * @private
    */
   _startClockUpdate() {
-    const updateCurrentTime = () => {
-      if (this._elements.currentTime) {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        this._elements.currentTime.textContent = `${hours}:${minutes}`;
-      }
-    };
-
-    updateCurrentTime();
-    setInterval(updateCurrentTime, 1000);
+    // Ya no actualizamos la hora de inicio en tiempo real
+    // Los valores son fijos establecidos al iniciar el timer
   }
 
   /**
