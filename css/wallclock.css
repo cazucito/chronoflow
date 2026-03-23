@@ -333,6 +333,8 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.6);
+  
+  transition: all 0.3s ease;
 }
 
 .wallclock-status::before {
@@ -356,8 +358,145 @@
 }
 
 .wallclock-status[data-state="completed"]::before {
-  background: #F44336;
+  background: #00E676;
+  box-shadow: 0 0 20px #00E676;
   animation: pulse 0.5s infinite;
+}
+
+.wallclock-status[data-state="completed"] {
+  background: rgba(0, 230, 118, 0.2);
+  color: #00E676;
+  border: 1px solid rgba(0, 230, 118, 0.5);
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  animation: statusComplete 0.5s ease;
+}
+
+@keyframes statusComplete {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================
+   ANIMACIÓN DE COMPLETADO
+   ============================================ */
+
+.wallclock-completion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  background: radial-gradient(ellipse at center, 
+    rgba(0, 230, 118, 0.1) 0%, 
+    transparent 70%
+  );
+  
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 5;
+}
+
+.wallclock-completion.active {
+  opacity: 1;
+  animation: completionFlash 2s ease;
+}
+
+@keyframes completionFlash {
+  0%, 100% { 
+    background: radial-gradient(ellipse at center, 
+      rgba(0, 230, 118, 0) 0%, 
+      transparent 70%
+    );
+  }
+  50% { 
+    background: radial-gradient(ellipse at center, 
+      rgba(0, 230, 118, 0.3) 0%, 
+      transparent 70%
+    );
+  }
+}
+
+.wallclock-completion-icon {
+  font-size: clamp(4rem, 15vw, 10rem);
+  animation: completionIcon 1s ease;
+  filter: drop-shadow(0 0 30px rgba(0, 230, 118, 0.8));
+}
+
+@keyframes completionIcon {
+  0% { 
+    transform: scale(0) rotate(-180deg); 
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.2) rotate(10deg); 
+  }
+  100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 1;
+  }
+}
+
+.wallclock-completion-text {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+  color: #00E676;
+  text-shadow: 0 0 30px rgba(0, 230, 118, 0.8);
+  margin-top: 1rem;
+  animation: completionText 1s ease 0.3s both;
+}
+
+@keyframes completionText {
+  0% { 
+    transform: translateY(20px); 
+    opacity: 0;
+  }
+  100% { 
+    transform: translateY(0); 
+    opacity: 1;
+  }
+}
+
+/* Efecto de celebración en el display cuando completa */
+.wallclock-mode[data-state="completed"] .wallclock-display {
+  animation: displayComplete 0.5s ease;
+}
+
+@keyframes displayComplete {
+  0%, 100% { 
+    text-shadow: 
+      0 0 10px rgba(0, 230, 118, 0.5),
+      0 0 40px rgba(0, 230, 118, 0.3),
+      0 0 80px rgba(0, 230, 118, 0.1);
+  }
+  50% { 
+    text-shadow: 
+      0 0 20px rgba(0, 230, 118, 0.8),
+      0 0 60px rgba(0, 230, 118, 0.5),
+      0 0 120px rgba(0, 230, 118, 0.3);
+    transform: scale(1.02);
+  }
+}
+
+.wallclock-mode[data-state="completed"] .digit,
+.wallclock-mode[data-state="completed"] .digit-separator {
+  background: linear-gradient(180deg, 
+    #69F0AE 0%, 
+    #00E676 50%, 
+    #00C853 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @keyframes pulse {
