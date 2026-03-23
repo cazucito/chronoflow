@@ -1,8 +1,8 @@
 # Especificación: ChronoFlow
 
 ## Documento de Especificación (SDD)
-**Versión**: 1.2
-**Fecha**: 2026-03-21
+**Versión**: 1.3
+**Fecha**: 2026-03-23
 **Estado**: Aprobado
 **Rama**: main
 
@@ -111,6 +111,20 @@ Este proyecto documenta y establece un **proceso metodológico de Specification-
 | RF-08.7 | Diferenciación visual | **Given** cualquier par de temas seleccionados, **Then** la diferencia visual entre ellos es notable e inmediata (colores, formas, atmósfera distintas) |
 | RF-08.8 | Persistencia de tema | **Given** usuario selecciona un tema, **When** cierra y reabre la app, **Then** el tema seleccionado se restaura desde localStorage |
 | RF-08.9 | Cambio en tiempo real | **Given** usuario cambia de tema, **When** selecciona nuevo tema, **Then** la UI actualiza inmediatamente sin recargar la página |
+
+### RF-09: Modo Reloj Digital de Pared (Wall Clock Mode)
+**Prioridad**: Alta | **Estado**: Required
+
+| ID | Descripción | Criterio de Aceptación (Given/When/Then) |
+|----|-------------|------------------------------------------|
+| RF-09.1 | Activación del modo | **Given** usuario ve la UI, **When** selecciona "Modo Reloj", **Then** la interfaz cambia a pantalla completa estilo reloj digital de pared |
+| RF-09.2 | Display principal | **Given** modo reloj activo, **When** usuario ve la pantalla, **Then** el tiempo (HH:MM:SS) se muestra en números digitales grandes (estilo 7-segmentos o LCD) ocupando ≥60% de la pantalla |
+| RF-09.3 | Información secundaria | **Given** modo reloj activo, **Then** se muestra debajo del tiempo principal: hora actual del sistema, hora de finalización estimada (si aplica), y label del timer |
+| RF-09.4 | Responsive fullscreen | **Given** ventana del navegador en cualquier tamaño, **When** se redimensiona, **Then** los números se ajustan automáticamente para ocupar el máximo espacio disponible sin overflow |
+| RF-09.5 | Controles táctiles/flotantes | **Given** modo reloj activo, **When** usuario interactúa, **Then** controles (play/pausa/reset) aparecen al tocar/hover, diseño minimalista, semitransparentes |
+| RF-09.6 | Funcionalidad móvil | **Given** dispositivo móvil, **When** usuario usa la app, **Then** controles son táctiles grandes (≥60px), soporta orientación portrait y landscape |
+| RF-09.7 | Transición suave | **Given** usuario cambia a modo reloj, **When** ocurre la transición, **Then** animación suave de fade/transform (≤300ms) |
+| RF-09.8 | Persistencia del modo | **Given** usuario cierra la app en modo reloj, **When** reabre, **Then** opcionalmente puede restaurar en modo reloj |
 
 ---
 
@@ -494,7 +508,8 @@ chronoflow/
 |---------|-------|-------|---------|
 | 1.0 | 2026-03-19 | OpenBot | Especificación inicial |
 | 1.1 | 2026-03-20 | Claude | Máquina de estados, contratos de módulos, Given/When/Then, manejo de errores, reglas de negocio |
-| 1.2 | 2026-03-21 | Claude | Agregados RF-03.5 (config tiempo countdown), RF-06 (label configurable), RF-07 (info hora fin) |
+| 1.2 | 2026-03-21 | Claude | Agregados RF-03.5 (config tiempo countdown), RF-06 (label configurable), RF-07 (info hora fin), RF-08 (5 temas visuales) |
+| 1.3 | 2026-03-23 | Claude | Agregado RF-09 (Modo Reloj Digital de Pared fullscreen) |
 
 ---
 

@@ -1,0 +1,458 @@
+/**
+ * ChronoFlow — Modo Reloj Digital de Pared (Wall Clock Mode)
+ * Pantalla completa con estilo reloj digital profesional
+ * 
+ * @module styles/wallclock
+ * @version 1.0.0
+ */
+
+/* ============================================
+   CONTENEDOR PRINCIPAL (Fullscreen)
+   ============================================ */
+
+.wallclock-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  width: 100dvw; /* Dynamic viewport width para móviles */
+  height: 100dvh; /* Dynamic viewport height para móviles */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  background: #0a0a0a;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 100%);
+  
+  color: #ff6b35;
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  
+  z-index: 9999;
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wallclock-mode:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wallclock-mode.hidden {
+  display: none !important;
+}
+
+/* ============================================
+   BOTÓN CERRAR
+   ============================================ */
+
+.wallclock-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  
+  width: 48px;
+  height: 48px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  cursor: pointer;
+  
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.wallclock-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* ============================================
+   DISPLAY PRINCIPAL (Dígitos grandes)
+   ============================================ */
+
+.wallclock-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  padding: 2vh 4vw;
+  
+  /* Efecto glow sutil */
+  text-shadow: 
+    0 0 10px rgba(255, 107, 53, 0.5),
+    0 0 40px rgba(255, 107, 53, 0.3),
+    0 0 80px rgba(255, 107, 53, 0.1);
+}
+
+.wallclock-digits {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  
+  font-size: clamp(4rem, 20vw, 16rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  
+  /* Efecto de display LED */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dígitos individuales */
+.digit {
+  display: inline-block;
+  min-width: 0.6em;
+  text-align: center;
+  
+  /* Efecto segmentos LED */
+  background: linear-gradient(180deg, 
+    #ff8c5a 0%, 
+    #ff6b35 50%, 
+    #e55a2b 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.digit-separator {
+  margin: 0 0.05em;
+  animation: blink 1s infinite;
+  
+  background: linear-gradient(180deg, 
+    #ff8c5a 0%, 
+    #ff6b35 50%, 
+    #e55a2b 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+/* Centésimas (más pequeñas) */
+.wallclock-centis {
+  font-size: clamp(1.5rem, 6vw, 4rem);
+  margin-top: -0.2em;
+  opacity: 0.8;
+  
+  display: flex;
+  align-items: baseline;
+}
+
+.wallclock-centis::before {
+  content: ".";
+  margin-right: 0.05em;
+}
+
+/* ============================================
+   INFORMACIÓN SECUNDARIA
+   ============================================ */
+
+.wallclock-info {
+  margin-top: 4vh;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.wallclock-label {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin-bottom: 2vh;
+  color: rgba(255, 255, 255, 0.8);
+  min-height: 1.5em;
+}
+
+.wallclock-times {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+  
+  font-size: clamp(0.875rem, 2.5vw, 1.25rem);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.wallclock-now,
+.wallclock-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.info-label {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+.wallclock-arrow {
+  font-size: 1.5em;
+  opacity: 0.4;
+}
+
+.wallclock-times time {
+  font-family: 'SF Mono', Monaco, monospace;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   CONTROLES FLOTANTES
+   ============================================ */
+
+.wallclock-controls {
+  position: fixed;
+  bottom: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  display: flex;
+  gap: 2vw;
+  
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.wallclock-mode:hover .wallclock-controls,
+.wallclock-controls:focus-within {
+  opacity: 1;
+}
+
+/* En móvil, controles siempre visibles */
+@media (pointer: coarse) {
+  .wallclock-controls {
+    opacity: 1;
+    bottom: 8vh;
+  }
+}
+
+/* Botones de control */
+.wallclock-btn {
+  width: clamp(56px, 12vw, 80px);
+  height: clamp(56px, 12vw, 80px);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  
+  transition: all 0.2s ease;
+}
+
+.wallclock-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.wallclock-btn:active {
+  transform: scale(0.95);
+}
+
+.wallclock-btn svg {
+  width: 50%;
+  height: 50%;
+}
+
+.wallclock-btn-play {
+  background: rgba(76, 175, 80, 0.2);
+  border-color: rgba(76, 175, 80, 0.4);
+}
+
+.wallclock-btn-play:hover {
+  background: rgba(76, 175, 80, 0.3);
+}
+
+.wallclock-btn-pause {
+  background: rgba(255, 152, 0, 0.2);
+  border-color: rgba(255, 152, 0, 0.4);
+}
+
+.wallclock-btn-pause:hover {
+  background: rgba(255, 152, 0, 0.3);
+}
+
+.wallclock-btn-reset {
+  background: rgba(244, 67, 54, 0.2);
+  border-color: rgba(244, 67, 54, 0.4);
+}
+
+.wallclock-btn-reset:hover {
+  background: rgba(244, 67, 54, 0.3);
+}
+
+/* ============================================
+   INDICADOR DE ESTADO
+   ============================================ */
+
+.wallclock-status {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  
+  padding: 0.5rem 1rem;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.wallclock-status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #666;
+}
+
+.wallclock-status[data-state="running"]::before {
+  background: #4CAF50;
+  box-shadow: 0 0 10px #4CAF50;
+  animation: pulse 1s infinite;
+}
+
+.wallclock-status[data-state="paused"]::before {
+  background: #FF9800;
+}
+
+.wallclock-status[data-state="completed"]::before {
+  background: #F44336;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL
+   ============================================ */
+
+@media (max-width: 640px) {
+  .wallclock-digits {
+    font-size: clamp(3rem, 15vw, 8rem);
+  }
+  
+  .wallclock-centis {
+    font-size: clamp(1rem, 4vw, 2rem);
+  }
+  
+  .wallclock-controls {
+    gap: 4vw;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .wallclock-btn {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .wallclock-times {
+    flex-direction: column;
+    gap: 1vh;
+  }
+  
+  .wallclock-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .wallclock-display {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2vw;
+  }
+  
+  .wallclock-digits {
+    font-size: clamp(3rem, 25vh, 12rem);
+  }
+  
+  .wallclock-centis {
+    margin-top: 0;
+    font-size: clamp(1.5rem, 8vh, 3rem);
+  }
+  
+  .wallclock-info {
+    margin-top: 2vh;
+  }
+}
+
+/* ============================================
+   MODO NORMAL - Botón activar
+   ============================================ */
+
+.btn-wallclock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  
+  transition: all 0.2s ease;
+}
+
+.btn-wallclock:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-icon {
+  font-size: 1.25rem;
+}
+
+.view-mode-selector {
+  text-align: center;
+  padding: var(--space-md) 0;
+}

@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/wallclock.css">
 </head>
 <body>
     <div id="app">
@@ -102,6 +103,14 @@
                     <option value="timer">Timer</option>
                     <option value="pomodoro">Pomodoro</option>
                 </select>
+            </section>
+            
+            <!-- Selector de modo de visualización -->
+            <section class="view-mode-selector" aria-label="Modo de visualización">
+                <button type="button" id="btn-toggle-wallclock" class="btn btn-wallclock" aria-label="Activar modo reloj de pared">
+                    <span class="btn-icon">🖥️</span>
+                    <span class="btn-text">Modo Reloj</span>
+                </button>
             </section>
             
             <!-- Selector de temas visuales -->
@@ -183,11 +192,79 @@
         </footer>
     </div>
     
+    <!-- ============================================
+         MODO RELOJ DIGITAL DE PARED (Wall Clock Mode)
+         Pantalla completa estilo reloj digital
+         ============================================ -->
+    <div id="wallclock-mode" class="wallclock-mode hidden" aria-label="Modo reloj digital">
+        <!-- Botón cerrar modo reloj -->
+        <button type="button" id="btn-close-wallclock" class="wallclock-close" aria-label="Cerrar modo reloj">
+            <span>✕</span>
+        </button>
+        
+        <!-- Display principal del tiempo -->
+        <div class="wallclock-display" role="timer" aria-live="polite">
+            <div class="wallclock-digits">
+                <span class="digit digit-h1">0</span>
+                <span class="digit digit-h2">0</span>
+                <span class="digit-separator">:</span>
+                <span class="digit digit-m1">0</span>
+                <span class="digit digit-m2">0</span>
+                <span class="digit-separator">:</span>
+                <span class="digit digit-s1">0</span>
+                <span class="digit digit-s2">0</span>
+            </div>
+            <div class="wallclock-centis">
+                <span class="digit-cs1">0</span>
+                <span class="digit-cs2">0</span>
+            </div>
+        </div>
+        
+        <!-- Información secundaria -->
+        <div class="wallclock-info">
+            <div class="wallclock-label" id="wallclock-label"></div>
+            <div class="wallclock-times">
+                <div class="wallclock-now">
+                    <span class="info-label">Ahora</span>
+                    <time id="wallclock-current">--:--</time>
+                </div>
+                <div class="wallclock-arrow">→</div>
+                <div class="wallclock-end">
+                    <span class="info-label">Termina</span>
+                    <time id="wallclock-endtime">--:--</time>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controles flotantes -->
+        <div class="wallclock-controls">
+            <button type="button" id="wallclock-btn-start" class="wallclock-btn wallclock-btn-play" aria-label="Iniciar">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+            <button type="button" id="wallclock-btn-pause" class="wallclock-btn wallclock-btn-pause hidden" aria-label="Pausar">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+            </button>
+            <button type="button" id="wallclock-btn-reset" class="wallclock-btn wallclock-btn-reset" aria-label="Resetear">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Indicador de estado -->
+        <div class="wallclock-status" id="wallclock-status"></div>
+    </div>
+    
     <!-- Scripts -->
     <script src="js/storage.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/wallclock.js"></script>
     <script src="js/pwa.js"></script>
     <script src="js/app.js"></script>
 </body>
