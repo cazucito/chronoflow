@@ -20,9 +20,6 @@ const App = {
     // Escuchar cambios de estado del timer para actualizar UI
     this._bindTimerEvents();
 
-    // Mostrar tiempo configurado inicialmente
-    this._updateDisplayForCurrentMode();
-
     console.log('ChronoFlow — Listo');
   },
 
@@ -31,19 +28,8 @@ const App = {
    * @private
    */
   _loadPreferences() {
-    const prefs = Storage.getPreferences();
-    
-    // Aplicar modo por defecto
-    if (prefs.defaultMode && timer) {
-      timer.setMode(prefs.defaultMode);
-      UI.showModeSelector(prefs.defaultMode);
-    }
-    
-    // Cargar último label
-    const lastLabel = Storage.getLastLabel();
-    if (lastLabel && UI) {
-      UI.setTimerLabel(lastLabel);
-    }
+    // La configuración se maneja ahora directamente en wallclock.js
+    console.log('[App] Preferencias cargadas por wallclock.js');
   },
 
   /**
