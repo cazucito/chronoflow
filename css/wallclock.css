@@ -115,7 +115,7 @@
 
 /* Dígitos individuales */
 .digit {
-  display: inline-block;
+  display: inline-block !important; /* Forzar visibilidad siempre */
   min-width: 0.6em;
   text-align: center;
   

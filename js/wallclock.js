@@ -271,7 +271,7 @@ class WallClock {
     const seconds = Math.floor((ms % 60000) / 1000);
     const centis = Math.floor((ms % 1000) / 10);
 
-    // Actualizar dígitos
+    // Actualizar dígitos - siempre mostrar todos, incluyendo horas en 00
     this._setDigit(this._elements.digitH1, Math.floor(hours / 10));
     this._setDigit(this._elements.digitH2, hours % 10);
     this._setDigit(this._elements.digitM1, Math.floor(minutes / 10));
@@ -285,15 +285,6 @@ class WallClock {
     }
     if (this._elements.centi2) {
       this._elements.centi2.textContent = centis % 10;
-    }
-
-    // Ocultar horas si son 0
-    const showHours = hours > 0;
-    if (this._elements.digitH1) {
-      this._elements.digitH1.style.display = showHours ? '' : 'none';
-    }
-    if (this._elements.digitH2) {
-      this._elements.digitH2.style.display = showHours ? '' : 'none';
     }
   }
 
