@@ -158,7 +158,7 @@ const App = {
     document.addEventListener('timer:statechange', (e) => {
       UI.setButtonState(e.detail.to);
       
-      // Al resetear, mostrar tiempo configurado para TIMER/POMODORO
+      // Al resetear, mostrar tiempo configurado
       if (e.detail.to === 'IDLE') {
         this._updateDisplayForCurrentMode();
       }
@@ -180,23 +180,13 @@ const App = {
   },
 
   /**
-   * Actualiza el display según el modo actual y configuración.
+   * Actualiza el display según la configuración actual.
    * @private
    */
   _updateDisplayForCurrentMode() {
-    const mode = timer.mode;
-    
-    if (mode === 'TIMER') {
-      const min = parseInt(document.getElementById('timer-min')?.value || '0', 10);
-      const sec = parseInt(document.getElementById('timer-sec')?.value || '0', 10);
-      UI.updateDisplay((min * 60 + sec) * 1000);
-    } else if (mode === 'POMODORO') {
-      const activeBtn = document.querySelector('.btn-pomodoro.active');
-      const min = parseInt(activeBtn?.dataset.min || '25', 10);
-      UI.updateDisplay(min * 60 * 1000);
-    } else {
-      UI.updateDisplay(0);
-    }
+    const min = parseInt(document.getElementById('timer-min')?.value || '0', 10);
+    const sec = parseInt(document.getElementById('timer-sec')?.value || '0', 10);
+    UI.updateDisplay((min * 60 + sec) * 1000);
   }
 };
 

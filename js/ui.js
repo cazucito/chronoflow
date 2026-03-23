@@ -18,9 +18,6 @@ const UI = {
       btnStart: document.getElementById('btn-start'),
       btnPause: document.getElementById('btn-pause'),
       btnReset: document.getElementById('btn-reset'),
-      modeSelector: document.getElementById('timer-mode'),
-      timerConfig: document.getElementById('timer-config'),
-      pomodoroConfig: document.getElementById('pomodoro-config'),
       timerMin: document.getElementById('timer-min'),
       timerSec: document.getElementById('timer-sec'),
       timerLabel: document.getElementById('timer-label'),
@@ -40,9 +37,13 @@ const UI = {
 
     this._bindEvents();
     this._bindAria();
-    this._updateConfigVisibility('stopwatch');
     this._startTimeInfoUpdates();
     this._initTheme();
+    
+    // Mostrar info de tiempo (siempre visible para timer)
+    if (this.elements.timeInfo) {
+      this.elements.timeInfo.classList.remove('hidden');
+    }
   },
 
   /**
@@ -162,7 +163,7 @@ const UI = {
    * @private
    */
   _bindEvents() {
-    const { btnStart, btnPause, btnReset, modeSelector } = this.elements;
+    const { btnStart, btnPause, btnReset } = this.elements;
 
     if (btnStart) {
       btnStart.addEventListener('click', () => {
@@ -184,28 +185,6 @@ const UI = {
     if (btnReset) {
       btnReset.addEventListener('click', () => timer.reset());
     }
-
-    if (modeSelector) {
-      modeSelector.addEventListener('change', (e) => {
-        const mode = e.target.value.toUpperCase();
-        timer.setMode(mode);
-        this._updateConfigVisibility(e.target.value);
-        this._updateDisplayForMode(mode);
-        // Actualizar hora de fin al cambiar de modo
-        setTimeout(() => this._updateEndTime(), 0);
-      });
-    }
-
-    // Botones de Pomodoro
-    const pomodoroButtons = document.querySelectorAll('.btn-pomodoro');
-    pomodoroButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        pomodoroButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        // Actualizar hora de fin al cambiar fase
-        this._updateEndTime();
-      });
-    });
 
     // Actualizar hora de fin cuando cambian los inputs de tiempo
     if (this.elements.timerMin) {
@@ -287,47 +266,14 @@ const UI = {
   },
 
   /**
-   * Configura el tiempo objetivo según el modo y los inputs.
+   * Configura el tiempo objetivo según los inputs.
    * @private
    */
   _configureTimerTarget() {
-    const mode = timer.mode;
-    
-    if (mode === 'TIMER') {
-      const min = parseInt(this.elements.timerMin?.value || '0', 10);
-      const sec = parseInt(this.elements.timerSec?.value || '0', 10);
-      const targetMs = (min * 60 + sec) * 1000;
-      timer.targetMs = targetMs;
-    } else if (mode === 'POMODORO') {
-      const activeBtn = document.querySelector('.btn-pomodoro.active');
-      const min = parseInt(activeBtn?.dataset.min || '25', 10);
-      timer.targetMs = min * 60 * 1000;
-    }
-  },
-
-  /**
-   * Actualiza la visibilidad de las secciones de configuración.
-   * @private
-   * @param {string} mode — modo seleccionado (stopwatch/timer/pomodoro)
-   */
-  _updateConfigVisibility(mode) {
-    const { timerConfig, pomodoroConfig, timeInfo } = this.elements;
-
-    if (timerConfig) {
-      timerConfig.classList.toggle('hidden', mode !== 'timer');
-    }
-    if (pomodoroConfig) {
-      pomodoroConfig.classList.toggle('hidden', mode !== 'pomodoro');
-    }
-    // Mostrar info de tiempo solo en modos countdown
-    if (timeInfo) {
-      const showTimeInfo = mode === 'timer' || mode === 'pomodoro';
-      timeInfo.classList.toggle('hidden', !showTimeInfo);
-      // Actualizar hora de fin después de que el DOM se actualice
-      if (showTimeInfo) {
-        requestAnimationFrame(() => this._updateEndTime());
-      }
-    }
+    const min = parseInt(this.elements.timerMin?.value || '0', 10);
+    const sec = parseInt(this.elements.timerSec?.value || '0', 10);
+    const targetMs = (min * 60 + sec) * 1000;
+    timer.targetMs = targetMs;
   },
 
   /**
@@ -367,14 +313,6 @@ const UI = {
     if (!this.elements.endTime) return;
 
     const state = timer.getState();
-    const mode = timer.mode;
-
-    // Solo mostrar en modos countdown
-    if (mode !== 'TIMER' && mode !== 'POMODORO') {
-      this.elements.endTime.textContent = '--:--';
-      return;
-    }
-
     let remainingMs = 0;
 
     // Si está corriendo o pausado, usar el tiempo restante del estado

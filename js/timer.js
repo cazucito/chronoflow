@@ -22,7 +22,7 @@ const TimerMode = {
 class Timer {
   constructor() {
     this.state = TimerState.IDLE;
-    this.mode = TimerMode.STOPWATCH;
+    this.mode = TimerMode.TIMER;
     this.accumulatedMs = 0;
     this.startTimestamp = 0;
     this.targetMs = 0;
