@@ -32,147 +32,11 @@
     <link rel="stylesheet" href="css/wallclock.css">
 </head>
 <body>
-    <div id="app">
-        <header class="app-header" role="banner">
-            <h1>
-                <span aria-hidden="true">⏱️</span>
-                <span>ChronoFlow</span>
-            </h1>
-        </header>
-        
-        <main class="app-main" role="main" aria-label="Cronómetro">
-            <!-- Label configurable -->
-            <section class="timer-label-section" aria-label="Etiqueta del timer">
-                <input 
-                    type="text" 
-                    id="timer-label" 
-                    class="timer-label-input" 
-                    placeholder="¿Qué estás cronometrando?"
-                    value=""
-                    aria-label="Descripción del timer">
-            </section>
-            
-            <section class="timer-display" aria-live="polite" aria-atomic="true">
-                <time id="time-display" datetime="PT0S" role="timer" aria-label="00:00:00.00">
-                    00:00:00.00
-                </time>
-            </section>
-            
-            <!-- Hora actual y hora de finalización (solo para countdown) -->
-            <section id="time-info" class="time-info hidden" aria-label="Información de tiempo">
-                <div class="time-info-item">
-                    <span class="time-info-label">Ahora:</span>
-                    <time id="current-time" class="time-info-value">--:--</time>
-                </div>
-                <div class="time-info-separator">→</div>
-                <div class="time-info-item">
-                    <span class="time-info-label">Termina:</span>
-                    <time id="end-time" class="time-info-value">--:--</time>
-                </div>
-            </section>
-            
-            <nav class="timer-controls" role="toolbar" aria-label="Controles del cronómetro">
-                <button 
-                    id="btn-start" 
-                    class="btn btn-primary" 
-                    type="button"
-                    aria-label="Iniciar cronómetro">
-                    Iniciar
-                </button>
-                <button 
-                    id="btn-pause" 
-                    class="btn btn-secondary" 
-                    type="button"
-                    disabled
-                    aria-label="Pausar cronómetro">
-                    Pausar
-                </button>
-                <button 
-                    id="btn-reset" 
-                    class="btn btn-tertiary" 
-                    type="button"
-                    aria-label="Reiniciar cronómetro">
-                    Reset
-                </button>
-            </nav>
-            
-            <!-- Modo único: Timer -->
-            <input type="hidden" id="timer-mode" name="timer-mode" value="timer">
-            
-            <!-- Selector de modo de visualización -->
-            <section class="view-mode-selector" aria-label="Modo de visualización">
-                <button type="button" id="btn-toggle-wallclock" class="btn btn-wallclock" aria-label="Activar modo reloj de pared">
-                    <span class="btn-icon">🖥️</span>
-                    <span class="btn-text">Modo Reloj</span>
-                </button>
-            </section>
-            
-            <!-- Selector de temas visuales -->
-            <section class="theme-selector" aria-label="Selector de tema visual">
-                <label for="theme-select" class="sr-only">Tema visual</label>
-                <select id="theme-select" name="theme">
-                    <option value="minimal">⚪ Minimal</option>
-                    <option value="nature">🌿 Nature</option>
-                    <option value="ocean">🌊 Ocean</option>
-                    <option value="dark">🌙 Dark</option>
-                    <option value="custom">🎨 Personalizado</option>
-                </select>
-            </section>
-            
-            <!-- Configuración de tema personalizado -->
-            <section id="custom-theme-config" class="custom-theme-config hidden" aria-label="Configuración de tema personalizado">
-                <h3>Personalizar tema</h3>
-                <div class="custom-theme-grid">
-                    <div class="custom-theme-field">
-                        <label for="custom-primary">Color principal</label>
-                        <input type="color" id="custom-primary" value="#4CAF50">
-                    </div>
-                    <div class="custom-theme-field">
-                        <label for="custom-bg">Color fondo</label>
-                        <input type="color" id="custom-bg" value="#ffffff">
-                    </div>
-                    <div class="custom-theme-field">
-                        <label for="custom-text">Color texto</label>
-                        <input type="color" id="custom-text" value="#212121">
-                    </div>
-                    <div class="custom-theme-field">
-                        <label for="custom-radius">Bordes (px)</label>
-                        <input type="range" id="custom-radius" min="0" max="20" value="8">
-                        <span id="custom-radius-value">8px</span>
-                    </div>
-                </div>
-                <button type="button" id="btn-save-custom" class="btn btn-primary btn-save-custom">Guardar tema</button>
-            </section>
-            
-            <!-- Configuración de tiempo -->
-            <section id="timer-config" class="timer-config" aria-label="Configuración de tiempo">
-                <div class="time-inputs">
-                    <div class="time-field">
-                        <label for="timer-min">Minutos</label>
-                        <input type="number" id="timer-min" min="0" max="999" value="5" aria-label="Minutos">
-                    </div>
-                    <span class="time-separator">:</span>
-                    <div class="time-field">
-                        <label for="timer-sec">Segundos</label>
-                        <input type="number" id="timer-sec" min="0" max="59" value="0" aria-label="Segundos">
-                    </div>
-                </div>
-            </section>
-        </main>
-        
-        <footer class="app-footer" role="contentinfo">
-            <p>ChronoFlow v1.0 — PWA</p>
-            <p class="sr-only">
-                Atajos de teclado: Espacio para iniciar/pausar, R para resetear.
-            </p>
-        </footer>
-    </div>
-    
     <!-- ============================================
          MODO RELOJ DIGITAL DE PARED (Wall Clock Mode)
-         Pantalla completa estilo reloj digital
+         Única interfaz - Timer fullscreen estilo reloj
          ============================================ -->
-    <div id="wallclock-mode" class="wallclock-mode hidden" aria-label="Modo reloj digital">
+    <div id="wallclock-mode" class="wallclock-mode" aria-label="Modo reloj digital">
         <!-- Botón cerrar modo reloj -->
         <button type="button" id="btn-close-wallclock" class="wallclock-close" aria-label="Cerrar modo reloj">
             <span>✕</span>
@@ -238,6 +102,23 @@
         <div class="wallclock-completion" id="wallclock-completion">
             <div class="wallclock-completion-icon">✓</div>
             <div class="wallclock-completion-text">¡Completado!</div>
+        </div>
+        
+        <!-- Configuración de tiempo (visible en estado IDLE) -->
+        <div class="wallclock-config" id="wallclock-config">
+            <div class="wallclock-config-title">Configurar Timer</div>
+            <div class="wallclock-config-inputs">
+                <div class="wallclock-config-field">
+                    <label for="timer-min">Min</label>
+                    <input type="number" id="timer-min" min="0" max="999" value="5" aria-label="Minutos">
+                </div>
+                <span class="wallclock-config-sep">:</span>
+                <div class="wallclock-config-field">
+                    <label for="timer-sec">Seg</label>
+                    <input type="number" id="timer-sec" min="0" max="59" value="0" aria-label="Segundos">
+                </div>
+            </div>
+            <input type="text" id="timer-label" placeholder="¿Qué estás cronometrando?" aria-label="Descripción">
         </div>
     </div>
     

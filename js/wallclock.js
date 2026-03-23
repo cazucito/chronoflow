@@ -81,69 +81,19 @@ class WallClock {
   _updateCallback = null;
 
   /**
-   * Inicializa el modo reloj.
+   * Inicializa el modo reloj (interfaz principal).
    * Cachea elementos DOM y binda eventos.
    */
   init() {
     this._cacheElements();
     this._bindEvents();
-    this._startClockUpdate();
     
-    console.log('[WallClock] Inicializado');
-  }
-
-  /**
-   * Muestra el modo reloj (fullscreen).
-   * @param {Object} [options] - Opciones
-   * @param {number} [options.displayMs=0] - Tiempo inicial a mostrar
-   * @param {string} [options.label=''] - Label del timer
-   * @param {string} [options.state='IDLE'] - Estado del timer
-   */
-  show(options = {}) {
-    this._isActive = true;
+    // Inicializar display
+    this._updateDisplay(0);
+    this._updateStatus('IDLE');
+    this._resetFixedTimes();
     
-    // Actualizar valores iniciales
-    this._updateDisplay(options.displayMs || 0);
-    this._updateLabel(options.label || '');
-    this._updateStatus(options.state || 'IDLE');
-    
-    // Si el timer ya está corriendo al abrir, calcular tiempos fijos
-    if (options.state === 'RUNNING' || options.state === 'PAUSED' || options.state === 'COMPLETED') {
-      if (!this._startTime) {
-        this._setStartTime();
-      }
-    } else {
-      this._resetFixedTimes();
-    }
-    
-    // Mostrar contenedor
-    this._elements.container.classList.remove('hidden');
-    
-    // Prevenir scroll del body
-    document.body.style.overflow = 'hidden';
-    
-    // Guardar preferencia
-    localStorage.setItem('cf_wallclock_active', 'true');
-    
-    console.log('[WallClock] Modo activado');
-  }
-
-  /**
-   * Oculta el modo reloj y vuelve a la UI normal.
-   */
-  hide() {
-    this._isActive = false;
-    
-    // Ocultar contenedor
-    this._elements.container.classList.add('hidden');
-    
-    // Restaurar scroll
-    document.body.style.overflow = '';
-    
-    // Guardar preferencia
-    localStorage.setItem('cf_wallclock_active', 'false');
-    
-    console.log('[WallClock] Modo desactivado');
+    console.log('[WallClock] Inicializado - Modo reloj como interfaz principal');
   }
 
   /**
@@ -191,8 +141,6 @@ class WallClock {
   _cacheElements() {
     this._elements = {
       container: document.getElementById('wallclock-mode'),
-      btnToggle: document.getElementById('btn-toggle-wallclock'),
-      btnClose: document.getElementById('btn-close-wallclock'),
       btnStart: document.getElementById('wallclock-btn-start'),
       btnPause: document.getElementById('wallclock-btn-pause'),
       btnReset: document.getElementById('wallclock-btn-reset'),
@@ -214,7 +162,12 @@ class WallClock {
       currentTime: document.getElementById('wallclock-current'),
       endTime: document.getElementById('wallclock-endtime'),
       status: document.getElementById('wallclock-status'),
-      completion: document.getElementById('wallclock-completion')
+      completion: document.getElementById('wallclock-completion'),
+      
+      // Configuración
+      timerMin: document.getElementById('timer-min'),
+      timerSec: document.getElementById('timer-sec'),
+      timerLabelInput: document.getElementById('timer-label')
     };
   }
 
@@ -223,39 +176,14 @@ class WallClock {
    * @private
    */
   _bindEvents() {
-    // Toggle modo reloj
-    this._elements.btnToggle?.addEventListener('click', () => {
-      const state = timer?.getState?.() || { displayMs: 0, state: 'IDLE' };
-      const label = UI?.getTimerLabel?.() || '';
-      
-      this.show({
-        displayMs: state.displayMs,
-        label,
-        state: state.state
-      });
-    });
-
-    // Cerrar modo reloj
-    this._elements.btnClose?.addEventListener('click', () => {
-      this.hide();
-    });
-
-    // Tecla ESC para cerrar
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this._isActive) {
-        this.hide();
-      }
-    });
-
     // Controles del timer
     this._elements.btnStart?.addEventListener('click', () => {
-      if (timer?.getState?.().state === 'PAUSED') {
+      const state = timer?.getState?.().state;
+      if (state === 'PAUSED') {
         timer.resume();
       } else {
-        // Configurar tiempo si es necesario
-        if (UI?._configureTimerTarget) {
-          UI._configureTimerTarget();
-        }
+        // Configurar tiempo desde los inputs
+        this._configureTimerFromInputs();
         timer.start();
       }
     });
@@ -268,26 +196,32 @@ class WallClock {
       timer.reset();
     });
 
+    // Actualizar label cuando cambia el input
+    this._elements.timerLabelInput?.addEventListener('input', () => {
+      this._updateLabel(this._elements.timerLabelInput.value);
+    });
+
     // Escuchar eventos del timer
     document.addEventListener('timer:tick', (e) => {
-      this.updateDisplay(e.detail.displayMs);
+      this._updateDisplay(e.detail.displayMs);
     });
 
     document.addEventListener('timer:statechange', (e) => {
       const newState = e.detail.to;
       const fromState = e.detail.from;
-      
-      this.updateStatus(newState);
+
+      this._updateStatus(newState);
       this._updateControls(newState);
-      
-      // Establecer tiempos fijos al iniciar (IDLE/PAUSED → RUNNING)
-      if (newState === 'RUNNING' && (fromState === 'IDLE' || fromState === 'PAUSED')) {
-        if (fromState === 'IDLE') {
-          // Solo establecer tiempos fijos si venimos de IDLE (nuevo inicio)
-          this._setStartTime();
+
+      // Establecer tiempos fijos al iniciar (IDLE → RUNNING)
+      if (newState === 'RUNNING' && fromState === 'IDLE') {
+        this._setStartTime();
+        // Guardar el label
+        if (this._elements.timerLabelInput) {
+          localStorage.setItem('cf_timer_label', this._elements.timerLabelInput.value);
         }
       }
-      
+
       // Resetear tiempos al volver a IDLE
       if (newState === 'IDLE') {
         this._resetFixedTimes();
@@ -295,10 +229,20 @@ class WallClock {
     });
 
     document.addEventListener('timer:complete', () => {
-      this.updateStatus('COMPLETED');
+      this._updateStatus('COMPLETED');
       this._updateControls('COMPLETED');
-      // La hora de término ya está calculada desde el inicio
     });
+  }
+
+  /**
+   * Configura el timer desde los inputs.
+   * @private
+   */
+  _configureTimerFromInputs() {
+    const min = parseInt(this._elements.timerMin?.value || '0', 10);
+    const sec = parseInt(this._elements.timerSec?.value || '0', 10);
+    const targetMs = (min * 60 + sec) * 1000;
+    timer.targetMs = targetMs;
   }
 
   /**
@@ -438,25 +382,16 @@ class WallClock {
    */
   _setStartTime() {
     this._startTime = new Date();
-    
+
     // Calcular hora de término basada en tiempo configurado
-    const mode = timer?.mode;
-    let durationMs = 0;
-    
-    if (mode === 'TIMER') {
-      const min = parseInt(document.getElementById('timer-min')?.value || '0', 10);
-      const sec = parseInt(document.getElementById('timer-sec')?.value || '0', 10);
-      durationMs = (min * 60 + sec) * 1000;
-    } else if (mode === 'POMODORO') {
-      const activeBtn = document.querySelector('.btn-pomodoro.active');
-      const min = parseInt(activeBtn?.dataset.min || '25', 10);
-      durationMs = min * 60 * 1000;
-    }
-    
+    const min = parseInt(this._elements.timerMin?.value || '0', 10);
+    const sec = parseInt(this._elements.timerSec?.value || '0', 10);
+    const durationMs = (min * 60 + sec) * 1000;
+
     if (durationMs > 0) {
       this._endTime = new Date(this._startTime.getTime() + durationMs);
     }
-    
+
     // Actualizar display con valores fijos
     this._updateFixedTimes();
   }
@@ -498,31 +433,15 @@ class WallClock {
   }
 
   /**
-   * Inicia actualización del reloj de sistema.
+   * Inicializa el timer y restaura estado previo.
    * @private
    */
-  _startClockUpdate() {
-    // Ya no actualizamos la hora de inicio en tiempo real
-    // Los valores son fijos establecidos al iniciar el timer
-  }
-
-  /**
-   * Restaura el modo si estaba activo.
-   * Llama esto al iniciar la app.
-   */
-  restore() {
-    const wasActive = localStorage.getItem('cf_wallclock_active') === 'true';
-    if (wasActive) {
-      // Esperar a que todo esté listo
-      setTimeout(() => {
-        const state = timer?.getState?.() || { displayMs: 0, state: 'IDLE' };
-        const label = UI?.getTimerLabel?.() || '';
-        this.show({
-          displayMs: state.displayMs,
-          label,
-          state: state.state
-        });
-      }, 500);
+  _restoreState() {
+    // Restaurar label guardado
+    const savedLabel = localStorage.getItem('cf_timer_label');
+    if (savedLabel && this._elements.timerLabelInput) {
+      this._elements.timerLabelInput.value = savedLabel;
+      this._updateLabel(savedLabel);
     }
   }
 }
@@ -532,13 +451,9 @@ const wallClock = new WallClock();
 
 // Inicializar cuando el DOM esté listo
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    wallClock.init();
-    wallClock.restore();
-  });
+  document.addEventListener('DOMContentLoaded', () => wallClock.init());
 } else {
   wallClock.init();
-  wallClock.restore();
 }
 
 // Exportar

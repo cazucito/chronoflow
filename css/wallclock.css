@@ -31,19 +31,6 @@
   font-family: 'SF Mono', Monaco, 'Courier New', monospace;
   
   z-index: 9999;
-  
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.wallclock-mode:not(.hidden) {
-  opacity: 1;
-  visibility: visible;
-}
-
-.wallclock-mode.hidden {
-  display: none !important;
 }
 
 /* ============================================
@@ -560,38 +547,130 @@
 }
 
 /* ============================================
-   MODO NORMAL - Botón activar
+   CONFIGURACIÓN DENTRO DEL MODO RELOJ
    ============================================ */
 
-.btn-wallclock {
-  display: inline-flex;
+.wallclock-config {
+  position: fixed;
+  bottom: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 1rem;
+  
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wallclock-mode[data-state="running"] .wallclock-config,
+.wallclock-mode[data-state="paused"] .wallclock-config,
+.wallclock-mode[data-state="completed"] .wallclock-config {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.wallclock-config-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.wallclock-config-inputs {
+  display: flex;
+  align-items: flex-end;
   gap: 0.5rem;
+}
+
+.wallclock-config-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.wallclock-config-field label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.wallclock-config-field input {
+  width: 80px;
+  height: 56px;
   
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  
-  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 1.5rem;
+  color: #ff6b35;
+  text-align: center;
   
   transition: all 0.2s ease;
 }
 
-.btn-wallclock:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+.wallclock-config-field input:focus {
+  outline: none;
+  border-color: #ff6b35;
+  background: rgba(255, 107, 53, 0.1);
 }
 
-.btn-icon {
-  font-size: 1.25rem;
+.wallclock-config-sep {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  padding-bottom: 0.5rem;
 }
 
-.view-mode-selector {
+.wallclock-config input[type="text"] {
+  width: 100%;
+  max-width: 280px;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  
+  padding: 0.75rem 1rem;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
   text-align: center;
-  padding: var(--space-md) 0;
+  
+  transition: all 0.2s ease;
+}
+
+.wallclock-config input[type="text"]:focus {
+  outline: none;
+  border-color: #ff6b35;
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.wallclock-config input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Ocultar flechas de input number */
+.wallclock-config-field input::-webkit-outer-spin-button,
+.wallclock-config-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.wallclock-config-field input[type=number] {
+  -moz-appearance: textfield;
 }
