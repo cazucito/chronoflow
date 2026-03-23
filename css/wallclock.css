@@ -7,7 +7,7 @@
  */
 
 /* ============================================
-   CONTENEDOR PRINCIPAL (Fullscreen)
+   CONTENEDOR PRINCIPAL - Panel LCD Digital
    ============================================ */
 
 .wallclock-mode {
@@ -16,21 +16,52 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  width: 100dvw; /* Dynamic viewport width para móviles */
-  height: 100dvh; /* Dynamic viewport height para móviles */
+  width: 100dvw;
+  height: 100dvh;
   
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   
-  background: #0a0a0a;
-  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 100%);
+  /* Fondo metálico oscuro con gradiente sutil */
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(40, 45, 55, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(30, 35, 45, 0.6) 0%, transparent 50%),
+    linear-gradient(180deg, #1a1d24 0%, #0d0f14 50%, #080a0d 100%);
+  
+  /* Textura metálica sutil */
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.01) 2px,
+      rgba(255, 255, 255, 0.01) 4px
+    ),
+    radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 100%);
   
   color: #ff6b35;
   font-family: 'SF Mono', Monaco, 'Courier New', monospace;
   
   z-index: 9999;
+  overflow: hidden;
+}
+
+/* Efecto de brillo/reflejo en el fondo */
+.wallclock-mode::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    ellipse at 30% 20%,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 40%
+  );
+  pointer-events: none;
 }
 
 /* ============================================
@@ -68,7 +99,7 @@
 }
 
 /* ============================================
-   DISPLAY PRINCIPAL (Dígitos grandes)
+   DISPLAY PRINCIPAL - Panel LCD con Bezel
    ============================================ */
 
 .wallclock-display {
@@ -77,13 +108,59 @@
   align-items: center;
   justify-content: center;
   
-  padding: 2vh 4vw;
+  padding: 4vh 6vw;
+  margin: 2vh;
   
-  /* Efecto glow sutil */
-  text-shadow: 
-    0 0 10px rgba(255, 107, 53, 0.5),
-    0 0 40px rgba(255, 107, 53, 0.3),
-    0 0 80px rgba(255, 107, 53, 0.1);
+  /* Marco/bezel metálico */
+  background: 
+    linear-gradient(145deg, #2a2d35 0%, #1a1d24 50%, #0f1116 100%);
+  
+  /* Borde metálico con efecto 3D */
+  border: 
+    8px solid transparent;
+  border-image: 
+    linear-gradient(145deg, 
+      #3a3d45 0%, 
+      #1a1d24 30%, 
+      #0a0c10 70%, 
+      #2a2d35 100%
+    ) 1;
+  
+  /* Sombra profunda para efecto 3D */
+  box-shadow: 
+    /* Sombra exterior profunda */
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    /* Borde interior brillante */
+    inset 0 2px 4px rgba(255, 255, 255, 0.1),
+    /* Sombra interior */
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+  
+  /* Bordes redondeados suaves */
+  border-radius: 12px;
+  
+  /* Efecto glow de los segmentos */
+  position: relative;
+}
+
+/* Efecto de cristal/pantalla sobre el display */
+.wallclock-display::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .wallclock-digits {
@@ -100,82 +177,153 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Dígitos individuales */
+/* Dígitos estilo segmentos LED de 7 segmentos */
 .digit {
-  display: inline-block !important; /* Forzar visibilidad siempre */
-  min-width: 0.6em;
+  display: inline-block !important;
+  min-width: 0.55em;
   text-align: center;
+  position: relative;
   
-  /* Efecto segmentos LED */
-  background: linear-gradient(180deg, 
-    #ff8c5a 0%, 
-    #ff6b35 50%, 
-    #e55a2b 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* Color base del segmento */
+  color: #ff6b35;
+  
+  /* Efecto de segmento encendido con múltiples sombras */
+  text-shadow: 
+    /* Brillo interno intenso */
+    0 0 5px rgba(255, 107, 53, 0.9),
+    0 0 10px rgba(255, 107, 53, 0.7),
+    /* Glow medio */
+    0 0 20px rgba(255, 107, 53, 0.5),
+    0 0 40px rgba(255, 107, 53, 0.3),
+    /* Halo exterior */
+    0 0 80px rgba(255, 107, 53, 0.15),
+    /* Sombra profunda para contraste */
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  
+  /* Filtro de brillo */
+  filter: brightness(1.1) contrast(1.2);
 }
 
+/* Separadores con efecto de parpadeo realista */
 .digit-separator {
-  margin: 0 0.05em;
-  animation: blink 1s infinite;
+  margin: 0 0.03em;
+  animation: lcd-blink 2s infinite;
   
-  background: linear-gradient(180deg, 
-    #ff8c5a 0%, 
-    #ff6b35 50%, 
-    #e55a2b 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ff6b35;
+  text-shadow: 
+    0 0 5px rgba(255, 107, 53, 0.9),
+    0 0 10px rgba(255, 107, 53, 0.7),
+    0 0 20px rgba(255, 107, 53, 0.4);
 }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
+@keyframes lcd-blink {
+  0%, 45% { 
+    opacity: 1;
+    text-shadow: 
+      0 0 5px rgba(255, 107, 53, 1),
+      0 0 10px rgba(255, 107, 53, 0.8);
+  }
+  50%, 95% { 
+    opacity: 0.25;
+    text-shadow: none;
+  }
+  100% { 
+    opacity: 1;
+    text-shadow: 
+      0 0 5px rgba(255, 107, 53, 1),
+      0 0 10px rgba(255, 107, 53, 0.8);
+  }
 }
 
-/* Centésimas (más pequeñas) */
+/* Centésimas estilo sub-display LCD */
 .wallclock-centis {
   font-size: clamp(1.5rem, 6vw, 4rem);
-  margin-top: -0.2em;
-  opacity: 0.8;
+  margin-top: 0.5rem;
   
   display: flex;
   align-items: baseline;
+  
+  /* Fondo tipo sub-display */
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  
+  /* Borde sutil */
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  
+  /* Sombra interior */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .wallclock-centis::before {
   content: ".";
   margin-right: 0.05em;
+  color: #ff6b35;
+  text-shadow: 
+    0 0 5px rgba(255, 107, 53, 0.8),
+    0 0 10px rgba(255, 107, 53, 0.4);
+}
+
+.wallclock-centis span {
+  color: #ff8c5a;
+  text-shadow: 
+    0 0 3px rgba(255, 140, 90, 0.7),
+    0 0 8px rgba(255, 140, 90, 0.4);
 }
 
 /* ============================================
-   INFORMACIÓN SECUNDARIA
+   INFORMACIÓN SECUNDARIA - Estilo Panel LCD
    ============================================ */
 
 .wallclock-info {
-  margin-top: 4vh;
+  margin-top: 3vh;
   text-align: center;
-  color: rgba(255, 255, 255, 0.6);
+  
+  /* Fondo de panel tipo LCD */
+  background: linear-gradient(145deg, 
+    rgba(20, 23, 28, 0.9) 0%, 
+    rgba(15, 18, 22, 0.95) 100%
+  );
+  
+  padding: 1.5rem 2.5rem;
+  border-radius: 8px;
+  
+  /* Borde metálico */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(60, 63, 70, 0.5) 0%, 
+    rgba(30, 33, 38, 0.8) 50%, 
+    rgba(20, 23, 28, 0.9) 100%
+  ) 1;
+  
+  /* Sombra para efecto 3D */
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.05);
 }
 
 .wallclock-label {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 500;
-  margin-bottom: 2vh;
-  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5vh;
+  color: rgba(255, 255, 255, 0.95);
   min-height: 1.5em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(255, 107, 53, 0.1);
+  
+  /* Línea divisoria sutil */
+  border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .wallclock-times {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2vw;
+  gap: 3vw;
   
   font-size: clamp(0.875rem, 2.5vw, 1.25rem);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -186,29 +334,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.4rem;
+  
+  /* Fondo de display pequeño */
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  min-width: 80px;
 }
 
 .info-label {
-  font-size: 0.75em;
+  font-size: 0.7em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.6;
+  letter-spacing: 0.15em;
+  color: rgba(255, 107, 53, 0.7);
+  font-weight: 600;
 }
 
 .wallclock-arrow {
   font-size: 1.5em;
-  opacity: 0.4;
+  color: rgba(255, 107, 53, 0.5);
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+  animation: pulse-arrow 2s infinite;
+}
+
+@keyframes pulse-arrow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
 
 .wallclock-times time {
   font-family: 'SF Mono', Monaco, monospace;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.1em;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================
-   CONTROLES FLOTANTES
+   CONTROLES FLOTANTES - Estilo Botones de Panel
    ============================================ */
 
 .wallclock-controls {
@@ -221,18 +385,38 @@
   gap: 2vw;
   
   padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  
+  /* Fondo metálico del panel de controles */
+  background: linear-gradient(145deg, 
+    rgba(45, 48, 55, 0.9) 0%, 
+    rgba(30, 33, 38, 0.95) 50%,
+    rgba(20, 23, 28, 0.9) 100%
+  );
+  
+  /* Borde metálico */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(70, 73, 80, 0.6) 0%, 
+    rgba(40, 43, 48, 0.8) 50%, 
+    rgba(25, 28, 33, 0.9) 100%
+  ) 1;
+  
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* Sombras profundas */
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.7),
+    0 5px 15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
   
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .wallclock-mode:hover .wallclock-controls,
 .wallclock-controls:focus-within {
   opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
 }
 
 /* En móvil, controles siempre visibles */
@@ -240,10 +424,11 @@
   .wallclock-controls {
     opacity: 1;
     bottom: 8vh;
+    transform: translateX(-50%) translateY(0);
   }
 }
 
-/* Botones de control */
+/* Botones de control estilo botones físicos */
 .wallclock-btn {
   width: clamp(56px, 12vw, 80px);
   height: clamp(56px, 12vw, 80px);
@@ -252,59 +437,130 @@
   align-items: center;
   justify-content: center;
   
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Gradiente metálico */
+  background: linear-gradient(145deg, 
+    rgba(60, 63, 68, 0.9) 0%, 
+    rgba(40, 43, 48, 0.9) 100%
+  );
+  
+  /* Borde 3D */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(80, 83, 88, 0.6) 0%, 
+    rgba(30, 33, 38, 0.8) 100%
+  ) 1;
+  
   border-radius: 50%;
   
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   
-  transition: all 0.2s ease;
+  /* Sombras para efecto 3D */
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  
+  transition: all 0.15s ease;
 }
 
 .wallclock-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
+  background: linear-gradient(145deg, 
+    rgba(70, 73, 78, 0.95) 0%, 
+    rgba(50, 53, 58, 0.95) 100%
+  );
+  transform: scale(1.08);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15);
 }
 
 .wallclock-btn:active {
   transform: scale(0.95);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .wallclock-btn svg {
-  width: 50%;
-  height: 50%;
+  width: 45%;
+  height: 45%;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
+/* Botón Play - Estilo verde LED */
 .wallclock-btn-play {
-  background: rgba(76, 175, 80, 0.2);
-  border-color: rgba(76, 175, 80, 0.4);
+  background: linear-gradient(145deg, 
+    rgba(46, 125, 50, 0.3) 0%, 
+    rgba(27, 94, 32, 0.3) 100%
+  );
+  border-color: rgba(76, 175, 80, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(76, 175, 80, 0.2),
+    0 0 20px rgba(76, 175, 80, 0.1);
 }
 
 .wallclock-btn-play:hover {
-  background: rgba(76, 175, 80, 0.3);
+  background: linear-gradient(145deg, 
+    rgba(46, 125, 50, 0.4) 0%, 
+    rgba(27, 94, 32, 0.4) 100%
+  );
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(76, 175, 80, 0.3),
+    0 0 30px rgba(76, 175, 80, 0.2);
 }
 
+/* Botón Pause - Estilo ámbar LED */
 .wallclock-btn-pause {
-  background: rgba(255, 152, 0, 0.2);
-  border-color: rgba(255, 152, 0, 0.4);
+  background: linear-gradient(145deg, 
+    rgba(245, 124, 0, 0.3) 0%, 
+    rgba(230, 81, 0, 0.3) 100%
+  );
+  border-color: rgba(255, 152, 0, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 152, 0, 0.2),
+    0 0 20px rgba(255, 152, 0, 0.1);
 }
 
 .wallclock-btn-pause:hover {
-  background: rgba(255, 152, 0, 0.3);
+  background: linear-gradient(145deg, 
+    rgba(245, 124, 0, 0.4) 0%, 
+    rgba(230, 81, 0, 0.4) 100%
+  );
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 152, 0, 0.3),
+    0 0 30px rgba(255, 152, 0, 0.2);
 }
 
+/* Botón Reset - Estilo rojo LED */
 .wallclock-btn-reset {
-  background: rgba(244, 67, 54, 0.2);
-  border-color: rgba(244, 67, 54, 0.4);
+  background: linear-gradient(145deg, 
+    rgba(198, 40, 40, 0.3) 0%, 
+    rgba(183, 28, 28, 0.3) 100%
+  );
+  border-color: rgba(244, 67, 54, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(244, 67, 54, 0.2),
+    0 0 20px rgba(244, 67, 54, 0.1);
 }
 
 .wallclock-btn-reset:hover {
-  background: rgba(244, 67, 54, 0.3);
+  background: linear-gradient(145deg, 
+    rgba(198, 40, 40, 0.4) 0%, 
+    rgba(183, 28, 28, 0.4) 100%
+  );
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(244, 67, 54, 0.3),
+    0 0 30px rgba(244, 67, 54, 0.2);
 }
 
 /* ============================================
-   INDICADOR DE ESTADO
+   INDICADOR DE ESTADO - Estilo Display LCD
    ============================================ */
 
 .wallclock-status {
@@ -312,16 +568,34 @@
   top: 20px;
   left: 20px;
   
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  /* Fondo de display tipo LCD */
+  background: linear-gradient(145deg, 
+    rgba(15, 18, 23, 0.95) 0%, 
+    rgba(10, 13, 18, 0.98) 100%
+  );
   
-  font-size: 0.875rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Borde metálico */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(60, 63, 70, 0.5) 0%, 
+    rgba(30, 33, 38, 0.8) 100%
+  ) 1;
+  
+  border-radius: 6px;
+  
+  font-size: 0.75rem;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.15em;
+  color: rgba(150, 153, 160, 0.8);
+  
+  /* Sombra para efecto 3D */
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.05);
   
   transition: all 0.3s ease;
 }
@@ -329,42 +603,109 @@
 .wallclock-status::before {
   content: "";
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 8px;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
   border-radius: 50%;
-  background: #666;
+  background: #333;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
 
+/* LED Verde - Running */
 .wallclock-status[data-state="running"]::before {
-  background: #4CAF50;
-  box-shadow: 0 0 10px #4CAF50;
-  animation: pulse 1s infinite;
+  background: radial-gradient(circle at 30% 30%, 
+    #69F0AE 0%, 
+    #00E676 40%, 
+    #00C853 100%
+  );
+  box-shadow: 
+    0 0 10px #00E676,
+    0 0 20px rgba(0, 230, 118, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  animation: led-pulse-green 2s infinite;
 }
 
+.wallclock-status[data-state="running"] {
+  color: #00E676;
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+}
+
+/* LED Ámbar - Paused */
 .wallclock-status[data-state="paused"]::before {
-  background: #FF9800;
+  background: radial-gradient(circle at 30% 30%, 
+    #FFD54F 0%, 
+    #FFB300 40%, 
+    #FF8F00 100%
+  );
+  box-shadow: 
+    0 0 10px #FFB300,
+    0 0 20px rgba(255, 179, 0, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
 }
 
+.wallclock-status[data-state="paused"] {
+  color: #FFB300;
+}
+
+/* LED Verde brillante - Completed */
 .wallclock-status[data-state="completed"]::before {
-  background: #00E676;
-  box-shadow: 0 0 20px #00E676;
-  animation: pulse 0.5s infinite;
+  background: radial-gradient(circle at 30% 30%, 
+    #B9F6CA 0%, 
+    #69F0AE 40%, 
+    #00E676 100%
+  );
+  box-shadow: 
+    0 0 15px #00E676,
+    0 0 30px rgba(0, 230, 118, 0.6),
+    0 0 50px rgba(0, 230, 118, 0.3),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  animation: led-flash-green 0.5s infinite;
 }
 
 .wallclock-status[data-state="completed"] {
-  background: rgba(0, 230, 118, 0.2);
+  background: linear-gradient(145deg, 
+    rgba(0, 230, 118, 0.15) 0%, 
+    rgba(0, 200, 83, 0.1) 100%
+  );
   color: #00E676;
-  border: 1px solid rgba(0, 230, 118, 0.5);
-  font-size: 1rem;
+  border-color: rgba(0, 230, 118, 0.4);
+  font-size: 0.875rem;
   padding: 0.75rem 1.5rem;
-  animation: statusComplete 0.5s ease;
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+  animation: status-glow 0.5s ease;
 }
 
-@keyframes statusComplete {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+@keyframes led-pulse-green {
+  0%, 100% { 
+    opacity: 1;
+    box-shadow: 
+      0 0 10px #00E676,
+      0 0 20px rgba(0, 230, 118, 0.5);
+  }
+  50% { 
+    opacity: 0.7;
+    box-shadow: 
+      0 0 5px #00E676,
+      0 0 10px rgba(0, 230, 118, 0.3);
+  }
+}
+
+@keyframes led-flash-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes status-glow {
+  0% { 
+    box-shadow: 0 0 5px rgba(0, 230, 118, 0.2);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(0, 230, 118, 0.5);
+  }
+  100% { 
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+  }
 }
 
 /* ============================================
@@ -549,12 +890,12 @@
 }
 
 /* ============================================
-   CONFIGURACIÓN DENTRO DEL MODO RELOJ
+   CONFIGURACIÓN - Panel de Control LCD
    ============================================ */
 
 .wallclock-config {
   position: fixed;
-  bottom: 15vh;
+  bottom: 18vh;
   left: 50%;
   transform: translateX(-50%);
   
@@ -563,15 +904,33 @@
   align-items: center;
   gap: 1rem;
   
-  padding: 1.5rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 2.5rem;
+  
+  /* Fondo de panel de control */
+  background: linear-gradient(145deg, 
+    rgba(25, 28, 35, 0.95) 0%, 
+    rgba(15, 18, 23, 0.98) 100%
+  );
+  
+  /* Borde metálico */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(70, 73, 80, 0.6) 0%, 
+    rgba(40, 43, 48, 0.8) 50%,
+    rgba(20, 23, 28, 0.9) 100%
+  ) 1;
+  
+  border-radius: 12px;
+  
+  /* Sombras profundas */
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.6),
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.05);
   
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
 }
 
 .wallclock-mode[data-state="running"] .wallclock-config,
@@ -580,71 +939,131 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transform: translateX(-50%) translateY(20px);
 }
 
 .wallclock-config-title {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.7em;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.2em;
+  color: rgba(255, 107, 53, 0.7);
+  
+  /* Línea superior */
+  border-top: 1px solid rgba(255, 107, 53, 0.3);
+  padding-top: 0.5rem;
+  margin-top: -0.5rem;
 }
 
 .wallclock-config-inputs {
   display: flex;
   align-items: flex-end;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .wallclock-config-field {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.4rem;
 }
 
 .wallclock-config-field label {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.65em;
+  font-weight: 500;
+  color: rgba(150, 153, 160, 0.7);
   text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
+/* Inputs estilo display LCD */
 .wallclock-config-field input {
-  width: 80px;
-  height: 56px;
+  width: 85px;
+  height: 60px;
   
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  /* Fondo de display LCD */
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.6) 0%, 
+    rgba(20, 20, 20, 0.8) 100%
+  );
+  
+  /* Borde biselado */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(60, 63, 68, 0.8) 0%, 
+    rgba(30, 33, 38, 0.9) 100%
+  ) 1;
+  
+  border-radius: 6px;
   
   font-family: 'SF Mono', Monaco, monospace;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
   color: #ff6b35;
   text-align: center;
+  
+  /* Efecto LCD */
+  text-shadow: 
+    0 0 5px rgba(255, 107, 53, 0.5),
+    0 0 10px rgba(255, 107, 53, 0.3);
+  
+  /* Sombra interior */
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.05);
   
   transition: all 0.2s ease;
 }
 
 .wallclock-config-field input:focus {
   outline: none;
-  border-color: #ff6b35;
-  background: rgba(255, 107, 53, 0.1);
+  border-color: transparent;
+  
+  /* Borde naranja brillante */
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.05),
+    0 0 15px rgba(255, 107, 53, 0.3),
+    0 0 25px rgba(255, 107, 53, 0.15);
+  
+  text-shadow: 
+    0 0 8px rgba(255, 107, 53, 0.8),
+    0 0 15px rgba(255, 107, 53, 0.5);
+}
+
+.wallclock-config-field input::placeholder {
+  color: rgba(255, 107, 53, 0.3);
 }
 
 .wallclock-config-sep {
-  font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.4);
-  padding-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: 300;
+  color: rgba(255, 107, 53, 0.4);
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.2);
+  padding-bottom: 0.3rem;
 }
 
+/* Input de texto (label) */
 .wallclock-config input[type="text"] {
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
   
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  /* Fondo de display LCD */
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.5) 0%, 
+    rgba(15, 15, 15, 0.7) 100%
+  );
+  
+  /* Borde biselado */
+  border: 2px solid transparent;
+  border-image: linear-gradient(145deg, 
+    rgba(50, 53, 58, 0.7) 0%, 
+    rgba(25, 28, 33, 0.9) 100%
+  ) 1;
+  
+  border-radius: 6px;
   
   padding: 0.75rem 1rem;
   
@@ -653,17 +1072,25 @@
   color: rgba(255, 255, 255, 0.9);
   text-align: center;
   
+  /* Sombra interior */
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.03);
+  
   transition: all 0.2s ease;
 }
 
 .wallclock-config input[type="text"]:focus {
   outline: none;
-  border-color: #ff6b35;
-  background: rgba(255, 107, 53, 0.1);
+  
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.03),
+    0 0 15px rgba(255, 107, 53, 0.2);
 }
 
 .wallclock-config input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(150, 153, 160, 0.5);
 }
 
 /* Ocultar flechas de input number */
