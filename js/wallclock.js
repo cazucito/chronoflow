@@ -449,11 +449,22 @@ class WallClock {
 // Singleton
 const wallClock = new WallClock();
 
-// Inicializar cuando el DOM esté listo
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => wallClock.init());
-} else {
+// Inicializar cuando el DOM y todos los scripts estén listos
+function initWallClock() {
+  // Verificar que timer esté disponible
+  if (typeof timer === 'undefined') {
+    console.error('[WallClock] Error: timer no está definido. Verificar orden de scripts.');
+    return;
+  }
+  
   wallClock.init();
+  console.log('[WallClock] Inicializado correctamente');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWallClock);
+} else {
+  initWallClock();
 }
 
 // Exportar
