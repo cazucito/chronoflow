@@ -362,21 +362,27 @@ class WallClock {
       return;
     }
 
-    let remainingMs = 0;
+    let endTimeDate = null;
     
     if (state.state === 'RUNNING' || state.state === 'PAUSED') {
-      remainingMs = state.displayMs;
+      // Calcular hora de fin basada en tiempo restante
+      endTimeDate = new Date(Date.now() + state.displayMs);
+    } else if (state.state === 'COMPLETED') {
+      // Si completó, la hora de fin es "ahora"
+      endTimeDate = new Date();
     } else {
-      // Calcular desde inputs
+      // IDLE: Calcular desde inputs
       const min = parseInt(document.getElementById('timer-min')?.value || '0', 10);
       const sec = parseInt(document.getElementById('timer-sec')?.value || '0', 10);
-      remainingMs = (min * 60 + sec) * 1000;
+      const remainingMs = (min * 60 + sec) * 1000;
+      if (remainingMs > 0) {
+        endTimeDate = new Date(Date.now() + remainingMs);
+      }
     }
 
-    if (remainingMs > 0) {
-      const endTime = new Date(Date.now() + remainingMs);
-      const hours = String(endTime.getHours()).padStart(2, '0');
-      const minutes = String(endTime.getMinutes()).padStart(2, '0');
+    if (endTimeDate) {
+      const hours = String(endTimeDate.getHours()).padStart(2, '0');
+      const minutes = String(endTimeDate.getMinutes()).padStart(2, '0');
       this._elements.endTime.textContent = `${hours}:${minutes}`;
     } else {
       this._elements.endTime.textContent = '--:--';
