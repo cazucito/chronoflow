@@ -162,8 +162,7 @@ class WallClock {
       currentTime: document.getElementById('wallclock-current'),
       endTime: document.getElementById('wallclock-endtime'),
       status: document.getElementById('wallclock-status'),
-      completion: document.getElementById('wallclock-completion'),
-      
+
       // Configuración
       timerMin: document.getElementById('timer-min'),
       timerSec: document.getElementById('timer-sec'),
@@ -318,33 +317,6 @@ class WallClock {
     // Actualizar atributo en el contenedor para estilos CSS
     if (this._elements.container) {
       this._elements.container.setAttribute('data-state', state.toLowerCase());
-    }
-    
-    // Mostrar/ocultar animación de completado
-    const completionEl = document.getElementById('wallclock-completion');
-    if (completionEl) {
-      if (state === 'COMPLETED') {
-        completionEl.classList.add('active');
-        // Reproducir sonido si está habilitado
-        this._playCompletionSound();
-      } else {
-        completionEl.classList.remove('active');
-      }
-    }
-  }
-  
-  /**
-   * Reproduce sonido de completado.
-   * @private
-   */
-  _playCompletionSound() {
-    try {
-      // Usar el sistema de notificaciones si está disponible
-      if (window.Notifications && typeof Notifications.sendAlert === 'function') {
-        // El sonido ya se maneja en notifications.js
-      }
-    } catch (e) {
-      // Silencioso si no hay sonido
     }
   }
 

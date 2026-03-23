@@ -58,9 +58,9 @@ const Notifications = {
       detail: { message } 
     }));
 
-    // Audio (RF-02.1)
+    // Audio (RF-02.1) - Duración aumentada a 3 segundos
     if (prefs.soundEnabled) {
-      this._playTone(440, 1000); // 440Hz, 1 segundo
+      this._playTone(440, 3000); // 440Hz, 3 segundos
     }
 
     // Vibración (RF-02.3)
