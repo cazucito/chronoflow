@@ -28,7 +28,7 @@ class WallClock {
   _primaryTimezone = 'America/Bogota';
   _secondaryTimezone = 'America/Mexico_City';
   
-  // Mapeo de zonas horarias con nombres completos
+  // Mapeo de zonas horarias con nombres completos y banderas
   _timezoneMap = {
     'America/Bogota': { code: 'COL', offset: -5, name: 'COLOMBIA', flag: '🇨🇴' },
     'America/Mexico_City': { code: 'CDMX', offset: -6, name: 'MÉXICO', flag: '🇲🇽' },
@@ -38,6 +38,12 @@ class WallClock {
     'America/Sao_Paulo': { code: 'BRA', offset: -3, name: 'BRASIL', flag: '🇧🇷' }
   };
 
+  // Banderas de países (para actualizar DOM)
+  _flagElements = {
+    primary: null,
+    secondary: null
+  };
+
   init() {
     this._loadTimezonePreference();
     this._cacheElements();
@@ -45,6 +51,7 @@ class WallClock {
     this._updateDisplay(0);
     this._updateStatus('IDLE');
     this._resetFixedTimes();
+    this._updateTimezoneDisplay(); // Actualizar banderas al inicio
     console.log('[WallClock] Inicializado con Dual Timezone');
   }
 
@@ -70,7 +77,8 @@ class WallClock {
       endTimeSecondary: document.getElementById('wallclock-endtime-secondary'),
       countryPrimary: document.getElementById('country-primary'),
       countrySecondary: document.getElementById('country-secondary'),
-      timezoneSelect: document.getElementById('timezone-select'),
+      timezonePrimarySelect: document.getElementById('timezone-primary'),
+      timezoneSecondarySelect: document.getElementById('timezone-secondary'),
       
       // Config
       timerMin: document.getElementById('timer-min'),
@@ -80,23 +88,14 @@ class WallClock {
   }
 
   _loadTimezonePreference() {
-    const savedTz = localStorage.getItem('cf_primary_timezone');
-    if (savedTz && this._timezoneMap[savedTz]) {
-      this._primaryTimezone = savedTz;
-      this._updateSecondaryTimezone();
+    const savedPrimary = localStorage.getItem('cf_primary_timezone');
+    const savedSecondary = localStorage.getItem('cf_secondary_timezone');
+    
+    if (savedPrimary && this._timezoneMap[savedPrimary]) {
+      this._primaryTimezone = savedPrimary;
     }
-  }
-
-  _updateSecondaryTimezone() {
-    // Lógica: si es Bogotá, secundaria es CDMX; si es CDMX, secundaria es Bogotá
-    // Para otras zonas, usa CDMX como secundaria por defecto
-    if (this._primaryTimezone === 'America/Bogota') {
-      this._secondaryTimezone = 'America/Mexico_City';
-    } else if (this._primaryTimezone === 'America/Mexico_City') {
-      this._secondaryTimezone = 'America/Bogota';
-    } else {
-      // Para otras zonas, mostrar Bogotá y CDMX como referencia
-      this._secondaryTimezone = 'America/Bogota';
+    if (savedSecondary && this._timezoneMap[savedSecondary]) {
+      this._secondaryTimezone = savedSecondary;
     }
   }
 
@@ -120,11 +119,17 @@ class WallClock {
       this._updateLabel(this._elements.timerLabelInput.value);
     });
 
-    // Selector de zona horaria
-    this._elements.timezoneSelect?.addEventListener('change', (e) => {
+    // Selector de zona horaria primaria
+    this._elements.timezonePrimarySelect?.addEventListener('change', (e) => {
       this._primaryTimezone = e.target.value;
-      this._updateSecondaryTimezone();
       localStorage.setItem('cf_primary_timezone', this._primaryTimezone);
+      this._updateTimezoneDisplay();
+    });
+
+    // Selector de zona horaria secundaria
+    this._elements.timezoneSecondarySelect?.addEventListener('change', (e) => {
+      this._secondaryTimezone = e.target.value;
+      localStorage.setItem('cf_secondary_timezone', this._secondaryTimezone);
       this._updateTimezoneDisplay();
     });
 
@@ -180,7 +185,7 @@ class WallClock {
   _updateFixedTimes() {
     if (!this._startTime || !this._endTime) return;
 
-    // Actualizar nombres de países
+    // Actualizar nombres de países y banderas
     const primaryInfo = this._timezoneMap[this._primaryTimezone];
     const secondaryInfo = this._timezoneMap[this._secondaryTimezone];
 
@@ -189,6 +194,17 @@ class WallClock {
     }
     if (this._elements.countrySecondary) {
       this._elements.countrySecondary.textContent = secondaryInfo.name;
+    }
+    
+    // Actualizar banderas
+    const primaryFlagEl = document.querySelector('.country-flag');
+    const secondaryFlagEl = document.querySelector('.country-flag-secondary');
+    
+    if (primaryFlagEl && primaryInfo) {
+      primaryFlagEl.textContent = primaryInfo.flag;
+    }
+    if (secondaryFlagEl && secondaryInfo) {
+      secondaryFlagEl.textContent = secondaryInfo.flag;
     }
 
     // Calcular horas para zona primaria
@@ -248,9 +264,29 @@ class WallClock {
   }
 
   _updateTimezoneDisplay() {
-    if (this._elements.timezoneSelect) {
-      this._elements.timezoneSelect.value = this._primaryTimezone;
+    // Actualizar selectores
+    if (this._elements.timezonePrimarySelect) {
+      this._elements.timezonePrimarySelect.value = this._primaryTimezone;
     }
+    if (this._elements.timezoneSecondarySelect) {
+      this._elements.timezoneSecondarySelect.value = this._secondaryTimezone;
+    }
+    
+    // Actualizar banderas en el DOM
+    const primaryInfo = this._timezoneMap[this._primaryTimezone];
+    const secondaryInfo = this._timezoneMap[this._secondaryTimezone];
+    
+    // Buscar y actualizar elementos de bandera
+    const primaryFlagEl = document.querySelector('.country-flag');
+    const secondaryFlagEl = document.querySelector('.country-flag-secondary');
+    
+    if (primaryFlagEl && primaryInfo) {
+      primaryFlagEl.textContent = primaryInfo.flag;
+    }
+    if (secondaryFlagEl && secondaryInfo) {
+      secondaryFlagEl.textContent = secondaryInfo.flag;
+    }
+    
     this._updateFixedTimes();
   }
 

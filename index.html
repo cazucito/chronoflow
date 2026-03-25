@@ -134,17 +134,30 @@
             </div>
             <input type="text" id="timer-label" placeholder="¿Qué estás cronometrando?" aria-label="Descripción">
             
-            <!-- Selector de zona horaria -->
-            <div class="timezone-selector">
-                <label for="timezone-select">Zona horaria</label>
-                <select id="timezone-select" aria-label="Seleccionar zona horaria">
-                    <option value="America/Bogota" data-offset="-5" data-code="COL">🇨🇴 Colombia</option>
-                    <option value="America/Mexico_City" data-offset="-6" data-code="CDMX">🇲🇽 México</option>
-                    <option value="America/Argentina/Buenos_Aires" data-offset="-3" data-code="ARG">🇦🇷 Argentina</option>
-                    <option value="America/Santiago" data-offset="-4" data-code="CHI">🇨🇱 Chile</option>
-                    <option value="America/Lima" data-offset="-5" data-code="PER">🇵🇪 Perú</option>
-                    <option value="America/Sao_Paulo" data-offset="-3" data-code="BRA">🇧🇷 Brasil</option>
-                </select>
+            <!-- Selectores de zona horaria -->
+            <div class="timezone-selectors-row">
+                <div class="timezone-selector">
+                    <label for="timezone-primary">Zona principal</label>
+                    <select id="timezone-primary" aria-label="Seleccionar zona horaria principal">
+                        <option value="America/Bogota" data-offset="-5" data-code="COL">🇨🇴 Colombia</option>
+                        <option value="America/Mexico_City" data-offset="-6" data-code="CDMX">🇲🇽 México</option>
+                        <option value="America/Argentina/Buenos_Aires" data-offset="-3" data-code="ARG">🇦🇷 Argentina</option>
+                        <option value="America/Santiago" data-offset="-4" data-code="CHI">🇨🇱 Chile</option>
+                        <option value="America/Lima" data-offset="-5" data-code="PER">🇵🇪 Perú</option>
+                        <option value="America/Sao_Paulo" data-offset="-3" data-code="BRA">🇧🇷 Brasil</option>
+                    </select>
+                </div>
+                <div class="timezone-selector">
+                    <label for="timezone-secondary">Zona secundaria</label>
+                    <select id="timezone-secondary" aria-label="Seleccionar zona horaria secundaria">
+                        <option value="America/Bogota" data-offset="-5" data-code="COL">🇨🇴 Colombia</option>
+                        <option value="America/Mexico_City" data-offset="-6" data-code="CDMX" selected>🇲🇽 México</option>
+                        <option value="America/Argentina/Buenos_Aires" data-offset="-3" data-code="ARG">🇦🇷 Argentina</option>
+                        <option value="America/Santiago" data-offset="-4" data-code="CHI">🇨🇱 Chile</option>
+                        <option value="America/Lima" data-offset="-5" data-code="PER">🇵🇪 Perú</option>
+                        <option value="America/Sao_Paulo" data-offset="-3" data-code="BRA">🇧🇷 Brasil</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
