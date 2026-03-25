@@ -55,18 +55,33 @@
             </div>
         </div>
         
-        <!-- Información secundaria -->
+        <!-- Información secundaria con dual timezone -->
         <div class="wallclock-info">
             <div class="wallclock-label" id="wallclock-label"></div>
-            <div class="wallclock-times">
-                <div class="wallclock-now">
-                    <span class="info-label">Inicio</span>
-                    <time id="wallclock-current">--:--</time>
+            <div class="wallclock-times" id="wallclock-times">
+                <!-- Zona horaria principal -->
+                <div class="timezone-primary">
+                    <div class="wallclock-now">
+                        <span class="info-label">Inicio <span class="tz-code" id="tz-primary-code">COL</span></span>
+                        <time id="wallclock-current-primary">--:--</time>
+                    </div>
+                    <div class="wallclock-arrow">→</div>
+                    <div class="wallclock-end">
+                        <span class="info-label">Termina <span class="tz-code" id="tz-primary-code-end">COL</span></span>
+                        <time id="wallclock-endtime-primary">--:--</time>
+                    </div>
                 </div>
-                <div class="wallclock-arrow">→</div>
-                <div class="wallclock-end">
-                    <span class="info-label">Termina</span>
-                    <time id="wallclock-endtime">--:--</time>
+                <!-- Zona horaria secundaria -->
+                <div class="timezone-secondary" id="timezone-secondary">
+                    <div class="wallclock-now-secondary">
+                        <span class="info-label-small">Inicio <span class="tz-code-small" id="tz-secondary-code">CDMX</span></span>
+                        <time id="wallclock-current-secondary" class="time-small">--:--</time>
+                    </div>
+                    <div class="wallclock-arrow-small">→</div>
+                    <div class="wallclock-end-secondary">
+                        <span class="info-label-small">Termina <span class="tz-code-small" id="tz-secondary-code-end">CDMX</span></span>
+                        <time id="wallclock-endtime-secondary" class="time-small">--:--</time>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,6 +123,19 @@
                 </div>
             </div>
             <input type="text" id="timer-label" placeholder="¿Qué estás cronometrando?" aria-label="Descripción">
+            
+            <!-- Selector de zona horaria -->
+            <div class="timezone-selector">
+                <label for="timezone-select">Zona horaria</label>
+                <select id="timezone-select" aria-label="Seleccionar zona horaria">
+                    <option value="America/Bogota" data-offset="-5" data-code="COL">🇨🇴 Bogotá (COL)</option>
+                    <option value="America/Mexico_City" data-offset="-6" data-code="CDMX">🇲🇽 CDMX (MEX)</option>
+                    <option value="America/Argentina/Buenos_Aires" data-offset="-3" data-code="ARG">🇦🇷 Buenos Aires (ARG)</option>
+                    <option value="America/Santiago" data-offset="-4" data-code="CHI">🇨🇱 Santiago (CHI)</option>
+                    <option value="America/Lima" data-offset="-5" data-code="PER">🇵🇪 Lima (PER)</option>
+                    <option value="America/Sao_Paulo" data-offset="-3" data-code="BRA">🇧🇷 São Paulo (BRA)</option>
+                </select>
+            </div>
         </div>
     </div>
     

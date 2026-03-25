@@ -1,8 +1,8 @@
 # Especificación: ChronoFlow
 
 ## Documento de Especificación (SDD)
-**Versión**: 1.3
-**Fecha**: 2026-03-23
+**Versión**: 1.4
+**Fecha**: 2026-03-24
 **Estado**: Aprobado
 **Rama**: main
 
@@ -125,6 +125,17 @@ Este proyecto documenta y establece un **proceso metodológico de Specification-
 | RF-09.6 | Funcionalidad móvil | **Given** dispositivo móvil, **When** usuario usa la app, **Then** controles son táctiles grandes (≥60px), soporta orientación portrait y landscape |
 | RF-09.7 | Transición suave | **Given** usuario cambia a modo reloj, **When** ocurre la transición, **Then** animación suave de fade/transform (≤300ms) |
 | RF-09.8 | Persistencia del modo | **Given** usuario cierra la app en modo reloj, **When** reabre, **Then** opcionalmente puede restaurar en modo reloj |
+
+### RF-10: Dual Timezone Display (Zonas Horarias LATAM)
+**Prioridad**: Media | **Estado**: Required
+
+| ID | Descripción | Criterio de Aceptación (Given/When/Then) |
+|----|-------------|------------------------------------------|
+| RF-10.1 | Selector de zona horaria | **Given** usuario ve el panel de configuración, **When** abre el selector de zona, **Then** puede elegir entre: Bogotá (COL), CDMX (MEX), Buenos Aires (ARG), Santiago (CHI), Lima (PER), São Paulo (BRA) |
+| RF-10.2 | Display dual de horarios | **Given** timer configurado, **When** usuario inicia el timer, **Then** muestra dos horarios: la zona principal seleccionada (grande/naranja) y la zona secundaria (pequeña/blanco debajo) |
+| RF-10.3 | Cálculo de hora fin | **Given** zona horaria seleccionada, **When** se calcula hora de término, **Then** se calcula correctamente según UTC y offset de la zona |
+| RF-10.4 | Persistencia de zona | **Given** usuario selecciona zona horaria, **When** cierra y reabre app, **Then** la zona seleccionada se restaura desde localStorage |
+| RF-10.5 | Zonas por defecto | **Given** app recién instalada, **When** usuario abre por primera vez, **Then** zona principal = Bogotá (UTC-5), zona secundaria = CDMX (UTC-6) |
 
 ---
 
@@ -510,6 +521,7 @@ chronoflow/
 | 1.1 | 2026-03-20 | Claude | Máquina de estados, contratos de módulos, Given/When/Then, manejo de errores, reglas de negocio |
 | 1.2 | 2026-03-21 | Claude | Agregados RF-03.5 (config tiempo countdown), RF-06 (label configurable), RF-07 (info hora fin), RF-08 (5 temas visuales) |
 | 1.3 | 2026-03-23 | Claude | Agregado RF-09 (Modo Reloj Digital de Pared fullscreen) |
+| 1.4 | 2026-03-24 | Claude | Agregado RF-10 (Dual Timezone Display para LATAM: COL, MEX, ARG, CHI, PER, BRA) |
 
 ---
 
