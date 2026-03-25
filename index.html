@@ -38,10 +38,7 @@
          ============================================ -->
     <div id="wallclock-mode" class="wallclock-mode" aria-label="Modo reloj digital">
         
-        <!-- Label principal -->
-        <div class="wallclock-label" id="wallclock-label"></div>
-        
-        <!-- Display principal: Timer -->
+        <!-- Timer (elemento más dominante) -->
         <div class="wallclock-timer-section" role="timer" aria-live="polite">
             <div class="wallclock-digits">
                 <span class="digit digit-h1">0</span>
@@ -53,30 +50,49 @@
                 <span class="digit digit-s1">0</span>
                 <span class="digit digit-s2">0</span>
             </div>
+            <div class="timer-divider"></div>
         </div>
         
-        <!-- Zonas horarias integradas debajo del timer -->
-        <div class="wallclock-timezones-inline">
-            <!-- Zona horaria principal -->
-            <div class="timezone-row timezone-primary-row">
-                <span class="tz-row-label">INICIO</span>
-                <span class="tz-row-flag">🇨🇴</span>
-                <span class="tz-row-code" id="tz-primary-code">COL</span>
-                <time id="wallclock-current-primary" class="tz-row-time">--:--</time>
-                <span class="tz-row-arrow">→</span>
-                <span class="tz-row-label">TERMINA</span>
-                <time id="wallclock-endtime-primary" class="tz-row-time">--:--</time>
+        <!-- Label (segundo en jerarquía) -->
+        <div class="wallclock-label" id="wallclock-label"></div>
+        
+        <!-- Zonas horarias (tercero en jerarquía) -->
+        <div class="wallclock-timezones-grid">
+            <!-- Columna izquierda: Zona principal -->
+            <div class="timezone-column timezone-primary-col">
+                <div class="timezone-country">
+                    <span class="country-name" id="country-primary">COLOMBIA</span>
+                    <span class="country-flag">🇨🇴</span>
+                </div>
+                <div class="timezone-hours">
+                    <time id="wallclock-current-primary" class="hour-start">--:--</time>
+                    <span class="hour-arrow">→</span>
+                    <time id="wallclock-endtime-primary" class="hour-end">--:--</time>
+                </div>
+                <div class="timezone-labels">
+                    <span class="label-start">INICIO</span>
+                    <span class="label-end">TERMINA</span>
+                </div>
             </div>
             
-            <!-- Zona horaria secundaria -->
-            <div class="timezone-row timezone-secondary-row">
-                <span class="tz-row-label">INICIO</span>
-                <span class="tz-row-flag-secondary">🇲🇽</span>
-                <span class="tz-row-code-secondary" id="tz-secondary-code">CDMX</span>
-                <time id="wallclock-current-secondary" class="tz-row-time-secondary">--:--</time>
-                <span class="tz-row-arrow-secondary">→</span>
-                <span class="tz-row-label">TERMINA</span>
-                <time id="wallclock-endtime-secondary" class="tz-row-time-secondary">--:--</time>
+            <!-- Separador vertical -->
+            <div class="timezone-separator"></div>
+            
+            <!-- Columna derecha: Zona secundaria -->
+            <div class="timezone-column timezone-secondary-col">
+                <div class="timezone-country-secondary">
+                    <span class="country-name-secondary" id="country-secondary">MÉXICO</span>
+                    <span class="country-flag-secondary">🇲🇽</span>
+                </div>
+                <div class="timezone-hours-secondary">
+                    <time id="wallclock-current-secondary" class="hour-start-secondary">--:--</time>
+                    <span class="hour-arrow-secondary">→</span>
+                    <time id="wallclock-endtime-secondary" class="hour-end-secondary">--:--</time>
+                </div>
+                <div class="timezone-labels-secondary">
+                    <span class="label-start-secondary">INICIO</span>
+                    <span class="label-end-secondary">TERMINA</span>
+                </div>
             </div>
         </div>
         
@@ -122,12 +138,12 @@
             <div class="timezone-selector">
                 <label for="timezone-select">Zona horaria</label>
                 <select id="timezone-select" aria-label="Seleccionar zona horaria">
-                    <option value="America/Bogota" data-offset="-5" data-code="COL">🇨🇴 Bogotá (COL)</option>
-                    <option value="America/Mexico_City" data-offset="-6" data-code="CDMX">🇲🇽 CDMX (MEX)</option>
-                    <option value="America/Argentina/Buenos_Aires" data-offset="-3" data-code="ARG">🇦🇷 Buenos Aires (ARG)</option>
-                    <option value="America/Santiago" data-offset="-4" data-code="CHI">🇨🇱 Santiago (CHI)</option>
-                    <option value="America/Lima" data-offset="-5" data-code="PER">🇵🇪 Lima (PER)</option>
-                    <option value="America/Sao_Paulo" data-offset="-3" data-code="BRA">🇧🇷 São Paulo (BRA)</option>
+                    <option value="America/Bogota" data-offset="-5" data-code="COL">🇨🇴 Colombia</option>
+                    <option value="America/Mexico_City" data-offset="-6" data-code="CDMX">🇲🇽 México</option>
+                    <option value="America/Argentina/Buenos_Aires" data-offset="-3" data-code="ARG">🇦🇷 Argentina</option>
+                    <option value="America/Santiago" data-offset="-4" data-code="CHI">🇨🇱 Chile</option>
+                    <option value="America/Lima" data-offset="-5" data-code="PER">🇵🇪 Perú</option>
+                    <option value="America/Sao_Paulo" data-offset="-3" data-code="BRA">🇧🇷 Brasil</option>
                 </select>
             </div>
         </div>

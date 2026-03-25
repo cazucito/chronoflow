@@ -159,84 +159,169 @@
     0 0 30px rgba(255, 107, 53, 0.05);
 }
 
-/* Zonas horarias en línea horizontal debajo del timer */
-.wallclock-timezones-inline {
+/* Zonas horarias en grid de dos columnas */
+.wallclock-timezones-grid {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin-top: 2vh;
+  
+  /* Sin fondo para integrarse mejor */
+  padding: 1vh 2vw;
+}
+
+/* Columna de zona horaria */
+.timezone-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.5vh;
-  padding: 1vh 2vw;
-  
-  /* Fondo de panel LCD */
-  background: linear-gradient(145deg, 
-    rgba(20, 23, 28, 0.9) 0%, 
-    rgba(10, 13, 18, 0.95) 100%
-  );
-  
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  
-  box-shadow: 
-    inset 0 1px 2px rgba(255, 255, 255, 0.05),
-    0 4px 15px rgba(0, 0, 0, 0.4);
+  padding: 1rem 2rem;
+  min-width: 160px;
 }
 
-/* Fila de zona horaria */
-.timezone-row {
+.timezone-primary-col {
+  /* Destacar más la primera columna */
+}
+
+.timezone-secondary-col {
+  opacity: 0.7;
+}
+
+/* Separador vertical */
+.timezone-separator {
+  width: 1px;
+  background: linear-gradient(180deg, 
+    transparent 0%,
+    rgba(255, 107, 53, 0.4) 20%,
+    rgba(255, 107, 53, 0.4) 80%,
+    transparent 100%
+  );
+  margin: 0.5rem 0;
+}
+
+/* Nombre del país + bandera */
+.timezone-country {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1vw;
-  padding: 0.4rem 1rem;
-  width: 100%;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.timezone-primary-row {
-  border-bottom: 1px solid rgba(255, 107, 53, 0.15);
-  padding-bottom: 0.5rem;
+.timezone-country-secondary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.timezone-secondary-row {
-  opacity: 0.85;
+.country-name {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ff6b35;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.country-name-secondary {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(150, 153, 160, 0.9);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.country-flag {
+  font-size: 1.3rem;
+}
+
+.country-flag-secondary {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Horas con flecha */
+.timezone-hours {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.timezone-hours-secondary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.hour-start, .hour-end {
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ff6b35;
+  text-shadow: 0 0 5px rgba(255, 107, 53, 0.4);
+  min-width: 60px;
+  text-align: center;
+}
+
+.hour-start-secondary, .hour-end-secondary {
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgba(180, 183, 190, 0.9);
+  min-width: 50px;
+  text-align: center;
+}
+
+.hour-arrow {
+  font-size: 1.4rem;
+  color: #ff6b35;
+  opacity: 0.6;
+}
+
+.hour-arrow-secondary {
+  font-size: 1.2rem;
+  color: rgba(150, 153, 160, 0.5);
 }
 
 /* Labels INICIO/TERMINA */
-.tz-row-label {
+.timezone-labels {
+  display: flex;
+  gap: 2rem;
+}
+
+.timezone-labels-secondary {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.label-start, .label-end {
   font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: rgba(150, 153, 160, 0.7);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* Banderas */
-.tz-row-flag {
-  font-size: 1rem;
-  margin: 0 0.2rem;
-}
-
-.tz-row-flag-secondary {
-  font-size: 0.9rem;
-  margin: 0 0.2rem;
-  opacity: 0.9;
-}
-
-/* Códigos de zona */
-.tz-row-code {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #ff6b35;
-  background: rgba(255, 107, 53, 0.1);
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 107, 53, 0.25);
-  min-width: 45px;
+  min-width: 60px;
   text-align: center;
 }
 
-.tz-row-code-secondary {
+.label-start-secondary, .label-end-secondary {
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(130, 133, 140, 0.6);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Tz-row-code-secondary {
   font-size: 0.7rem;
   font-weight: 600;
   color: rgba(150, 153, 160, 0.9);

@@ -28,14 +28,14 @@ class WallClock {
   _primaryTimezone = 'America/Bogota';
   _secondaryTimezone = 'America/Mexico_City';
   
-  // Mapeo de zonas horarias
+  // Mapeo de zonas horarias con nombres completos
   _timezoneMap = {
-    'America/Bogota': { code: 'COL', offset: -5, name: 'Bogotá' },
-    'America/Mexico_City': { code: 'CDMX', offset: -6, name: 'CDMX' },
-    'America/Argentina/Buenos_Aires': { code: 'ARG', offset: -3, name: 'Buenos Aires' },
-    'America/Santiago': { code: 'CHI', offset: -4, name: 'Santiago' },
-    'America/Lima': { code: 'PER', offset: -5, name: 'Lima' },
-    'America/Sao_Paulo': { code: 'BRA', offset: -3, name: 'São Paulo' }
+    'America/Bogota': { code: 'COL', offset: -5, name: 'COLOMBIA', flag: '🇨🇴' },
+    'America/Mexico_City': { code: 'CDMX', offset: -6, name: 'MÉXICO', flag: '🇲🇽' },
+    'America/Argentina/Buenos_Aires': { code: 'ARG', offset: -3, name: 'ARGENTINA', flag: '🇦🇷' },
+    'America/Santiago': { code: 'CHI', offset: -4, name: 'CHILE', flag: '🇨🇱' },
+    'America/Lima': { code: 'PER', offset: -5, name: 'PERÚ', flag: '🇵🇪' },
+    'America/Sao_Paulo': { code: 'BRA', offset: -3, name: 'BRASIL', flag: '🇧🇷' }
   };
 
   init() {
@@ -63,13 +63,13 @@ class WallClock {
       label: document.getElementById('wallclock-label'),
       status: document.getElementById('wallclock-status'),
       
-      // Dual timezone elements (nuevo layout inline)
+      // Dual timezone elements (nuevo layout dos columnas)
       currentTimePrimary: document.getElementById('wallclock-current-primary'),
       endTimePrimary: document.getElementById('wallclock-endtime-primary'),
       currentTimeSecondary: document.getElementById('wallclock-current-secondary'),
       endTimeSecondary: document.getElementById('wallclock-endtime-secondary'),
-      tzPrimaryCode: document.getElementById('tz-primary-code'),
-      tzSecondaryCode: document.getElementById('tz-secondary-code'),
+      countryPrimary: document.getElementById('country-primary'),
+      countrySecondary: document.getElementById('country-secondary'),
       timezoneSelect: document.getElementById('timezone-select'),
       
       // Config
@@ -180,15 +180,15 @@ class WallClock {
   _updateFixedTimes() {
     if (!this._startTime || !this._endTime) return;
 
-    // Actualizar códigos de zona (solo uno por zona ahora)
+    // Actualizar nombres de países
     const primaryInfo = this._timezoneMap[this._primaryTimezone];
     const secondaryInfo = this._timezoneMap[this._secondaryTimezone];
 
-    if (this._elements.tzPrimaryCode) {
-      this._elements.tzPrimaryCode.textContent = primaryInfo.code;
+    if (this._elements.countryPrimary) {
+      this._elements.countryPrimary.textContent = primaryInfo.name;
     }
-    if (this._elements.tzSecondaryCode) {
-      this._elements.tzSecondaryCode.textContent = secondaryInfo.code;
+    if (this._elements.countrySecondary) {
+      this._elements.countrySecondary.textContent = secondaryInfo.name;
     }
 
     // Calcular horas para zona primaria
