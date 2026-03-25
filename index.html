@@ -38,6 +38,9 @@
          ============================================ -->
     <div id="wallclock-mode" class="wallclock-mode" aria-label="Modo reloj digital">
         
+        <!-- Label (arriba del timer) -->
+        <div class="wallclock-label" id="wallclock-label"></div>
+        
         <!-- Timer (elemento más dominante) -->
         <div class="wallclock-timer-section" role="timer" aria-live="polite">
             <div class="wallclock-digits">
@@ -52,9 +55,6 @@
             </div>
             <div class="timer-divider"></div>
         </div>
-        
-        <!-- Label (segundo en jerarquía) -->
-        <div class="wallclock-label" id="wallclock-label"></div>
         
         <!-- Zonas horarias (tercero en jerarquía) -->
         <div class="wallclock-timezones-grid">
