@@ -218,7 +218,7 @@
 
 .country-name {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: #ff6b35;
   letter-spacing: 0.1em;
@@ -227,19 +227,19 @@
 
 .country-name-secondary {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: rgba(150, 153, 160, 0.9);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .country-flag {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .country-flag-secondary {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   opacity: 0.9;
 }
 
@@ -260,31 +260,31 @@
 
 .hour-start, .hour-end {
   font-family: 'SF Mono', Monaco, monospace;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #ff6b35;
   text-shadow: 0 0 5px rgba(255, 107, 53, 0.4);
-  min-width: 60px;
+  min-width: 55px;
   text-align: center;
 }
 
 .hour-start-secondary, .hour-end-secondary {
   font-family: 'SF Mono', Monaco, monospace;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   color: rgba(180, 183, 190, 0.9);
-  min-width: 50px;
+  min-width: 55px;
   text-align: center;
 }
 
 .hour-arrow {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: #ff6b35;
   opacity: 0.6;
 }
 
 .hour-arrow-secondary {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: rgba(150, 153, 160, 0.5);
 }
 
@@ -306,18 +306,18 @@
   letter-spacing: 0.15em;
   color: rgba(150, 153, 160, 0.7);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  min-width: 60px;
+  min-width: 55px;
   text-align: center;
 }
 
 .label-start-secondary, .label-end-secondary {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   color: rgba(130, 133, 140, 0.6);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  min-width: 50px;
+  min-width: 55px;
   text-align: center;
 }
 
