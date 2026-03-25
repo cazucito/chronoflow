@@ -37,8 +37,12 @@
          Única interfaz - Timer fullscreen estilo reloj
          ============================================ -->
     <div id="wallclock-mode" class="wallclock-mode" aria-label="Modo reloj digital">
-        <!-- Display principal del tiempo -->
-        <div class="wallclock-display" role="timer" aria-live="polite">
+        
+        <!-- Label principal -->
+        <div class="wallclock-label" id="wallclock-label"></div>
+        
+        <!-- Display principal: Timer -->
+        <div class="wallclock-timer-section" role="timer" aria-live="polite">
             <div class="wallclock-digits">
                 <span class="digit digit-h1">0</span>
                 <span class="digit digit-h2">0</span>
@@ -49,40 +53,30 @@
                 <span class="digit digit-s1">0</span>
                 <span class="digit digit-s2">0</span>
             </div>
-            <div class="wallclock-centis">
-                <span class="digit-cs1">0</span>
-                <span class="digit-cs2">0</span>
-            </div>
         </div>
         
-        <!-- Información secundaria con dual timezone -->
-        <div class="wallclock-info">
-            <div class="wallclock-label" id="wallclock-label"></div>
-            <div class="wallclock-times" id="wallclock-times">
-                <!-- Zona horaria principal -->
-                <div class="timezone-primary">
-                    <div class="wallclock-now">
-                        <span class="info-label">Inicio <span class="tz-code" id="tz-primary-code">COL</span></span>
-                        <time id="wallclock-current-primary">--:--</time>
-                    </div>
-                    <div class="wallclock-arrow">→</div>
-                    <div class="wallclock-end">
-                        <span class="info-label">Termina <span class="tz-code" id="tz-primary-code-end">COL</span></span>
-                        <time id="wallclock-endtime-primary">--:--</time>
-                    </div>
-                </div>
-                <!-- Zona horaria secundaria -->
-                <div class="timezone-secondary" id="timezone-secondary">
-                    <div class="wallclock-now-secondary">
-                        <span class="info-label-small">Inicio <span class="tz-code-small" id="tz-secondary-code">CDMX</span></span>
-                        <time id="wallclock-current-secondary" class="time-small">--:--</time>
-                    </div>
-                    <div class="wallclock-arrow-small">→</div>
-                    <div class="wallclock-end-secondary">
-                        <span class="info-label-small">Termina <span class="tz-code-small" id="tz-secondary-code-end">CDMX</span></span>
-                        <time id="wallclock-endtime-secondary" class="time-small">--:--</time>
-                    </div>
-                </div>
+        <!-- Zonas horarias integradas debajo del timer -->
+        <div class="wallclock-timezones-inline">
+            <!-- Zona horaria principal -->
+            <div class="timezone-row timezone-primary-row">
+                <span class="tz-row-label">INICIO</span>
+                <span class="tz-row-flag">🇨🇴</span>
+                <span class="tz-row-code" id="tz-primary-code">COL</span>
+                <time id="wallclock-current-primary" class="tz-row-time">--:--</time>
+                <span class="tz-row-arrow">→</span>
+                <span class="tz-row-label">TERMINA</span>
+                <time id="wallclock-endtime-primary" class="tz-row-time">--:--</time>
+            </div>
+            
+            <!-- Zona horaria secundaria -->
+            <div class="timezone-row timezone-secondary-row">
+                <span class="tz-row-label">INICIO</span>
+                <span class="tz-row-flag-secondary">🇲🇽</span>
+                <span class="tz-row-code-secondary" id="tz-secondary-code">CDMX</span>
+                <time id="wallclock-current-secondary" class="tz-row-time-secondary">--:--</time>
+                <span class="tz-row-arrow-secondary">→</span>
+                <span class="tz-row-label">TERMINA</span>
+                <time id="wallclock-endtime-secondary" class="tz-row-time-secondary">--:--</time>
             </div>
         </div>
         

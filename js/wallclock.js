@@ -60,20 +60,16 @@ class WallClock {
       digitM2: document.querySelector('.digit-m2'),
       digitS1: document.querySelector('.digit-s1'),
       digitS2: document.querySelector('.digit-s2'),
-      centi1: document.querySelector('.digit-cs1'),
-      centi2: document.querySelector('.digit-cs2'),
       label: document.getElementById('wallclock-label'),
       status: document.getElementById('wallclock-status'),
       
-      // Dual timezone elements
+      // Dual timezone elements (nuevo layout inline)
       currentTimePrimary: document.getElementById('wallclock-current-primary'),
       endTimePrimary: document.getElementById('wallclock-endtime-primary'),
       currentTimeSecondary: document.getElementById('wallclock-current-secondary'),
       endTimeSecondary: document.getElementById('wallclock-endtime-secondary'),
       tzPrimaryCode: document.getElementById('tz-primary-code'),
-      tzPrimaryCodeEnd: document.getElementById('tz-primary-code-end'),
       tzSecondaryCode: document.getElementById('tz-secondary-code'),
-      tzSecondaryCodeEnd: document.getElementById('tz-secondary-code-end'),
       timezoneSelect: document.getElementById('timezone-select'),
       
       // Config
@@ -184,17 +180,15 @@ class WallClock {
   _updateFixedTimes() {
     if (!this._startTime || !this._endTime) return;
 
-    // Actualizar códigos de zona
+    // Actualizar códigos de zona (solo uno por zona ahora)
     const primaryInfo = this._timezoneMap[this._primaryTimezone];
     const secondaryInfo = this._timezoneMap[this._secondaryTimezone];
 
     if (this._elements.tzPrimaryCode) {
       this._elements.tzPrimaryCode.textContent = primaryInfo.code;
-      this._elements.tzPrimaryCodeEnd.textContent = primaryInfo.code;
     }
     if (this._elements.tzSecondaryCode) {
       this._elements.tzSecondaryCode.textContent = secondaryInfo.code;
-      this._elements.tzSecondaryCodeEnd.textContent = secondaryInfo.code;
     }
 
     // Calcular horas para zona primaria
@@ -264,7 +258,6 @@ class WallClock {
     const hours = Math.floor(ms / 3600000);
     const minutes = Math.floor((ms % 3600000) / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
-    const centis = Math.floor((ms % 1000) / 10);
 
     this._setDigit(this._elements.digitH1, Math.floor(hours / 10));
     this._setDigit(this._elements.digitH2, hours % 10);
@@ -272,13 +265,6 @@ class WallClock {
     this._setDigit(this._elements.digitM2, minutes % 10);
     this._setDigit(this._elements.digitS1, Math.floor(seconds / 10));
     this._setDigit(this._elements.digitS2, seconds % 10);
-
-    if (this._elements.centi1) {
-      this._elements.centi1.textContent = Math.floor(centis / 10);
-    }
-    if (this._elements.centi2) {
-      this._elements.centi2.textContent = centis % 10;
-    }
   }
 
   _setDigit(element, value) {
