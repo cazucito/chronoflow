@@ -13,12 +13,11 @@ const STATIC_ASSETS = [
   '/css/components.css',
   '/css/themes.css',
   '/css/responsive.css',
-  '/js/app.js',
+  '/css/wallclock.css',
   '/js/timer.js',
-  '/js/ui.js',
   '/js/storage.js',
   '/js/notifications.js',
-  '/js/pwa.js',
+  '/js/wallclock.js',
   '/assets/icons/icon-192x192.png',
   '/assets/icons/icon-512x512.png'
 ];

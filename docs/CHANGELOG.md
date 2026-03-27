@@ -6,10 +6,17 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- Se consolidó el repositorio alrededor del runtime activo `index.html` + `wallclock.js`.
+- README, Todo y arquitectura fueron actualizados para reflejar la implementación vigente.
+
+### Removed
+- App legacy no cargada por la UI actual (`js/app.js`, `js/ui.js`, `js/pwa.js`).
+- Rama experimental plugin/DI (`js/app-v2.js`, `js/core/**`, `js/plugins/TimerPlugin.js`).
+- Suite funcional acoplada a la arquitectura anterior.
+
 ### Added
-- Especificación SDD completa (SPECIFICATION.md v1.0)
-- Documentación de metodología SDD (docs/METHODOLOGY.md)
-- Estructura de proyecto con AGENTS.md, README.md, Todo.md, Decisions.md
+- Smoke tests mínimos orientados al runtime actual (`tests/smoke.js`).
 
 ## [1.0.0] - 2026-03-XX (Fecha estimada Fase 3)
 

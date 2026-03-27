@@ -8,16 +8,28 @@ Este proyecto es un **ejercicio de Specification-Driven Development (SDD)** en l
 
 ## Estado
 
-- [ ] Especificación v1.0 - Draft
-- [ ] Fase 1: MVP Core
-- [ ] Fase 2: Notificaciones y UX
-- [ ] Fase 3: Historial y Extras
+- [x] Especificación v1.4 - Aprobada
+- [x] Runtime activo consolidado en modo wall clock
+- [ ] Limpieza de activos PWA pendientes (`assets/icons`, `assets/screenshots`)
+- [ ] Fase 2: cierre de RF requeridos aún no completos en runtime actual
+- [ ] Fase 3: historial y extras
+
+## Runtime Actual
+
+- UI activa: `index.html` + `js/wallclock.js`
+- Motor de tiempo: `js/timer.js`
+- Persistencia local: `js/storage.js`
+- Alertas: `js/notifications.js`
+- PWA publicada: `sw.js` + `manifest.json`
+
+El código legacy y la rama experimental plugin/DI fueron retirados para reducir ruido y evitar rutas muertas en el repositorio.
 
 ## Documentación
 
 - [SPECIFICATION.md](./SPECIFICATION.md) - Requerimientos completos
 - [docs/METHODOLOGY.md](./docs/METHODOLOGY.md) - Proceso SDD documentado
 - [docs/CHANGELOG.md](./docs/CHANGELOG.md) - Cambios versionados
+- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) - Arquitectura vigente del runtime actual
 
 ## Uso
 
