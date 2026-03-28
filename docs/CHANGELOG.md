@@ -11,6 +11,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - README, Todo y arquitectura fueron actualizados para reflejar la implementación vigente.
 
 ### Removed
+- Archivos CSS obsoletos de la UI legacy eliminados para optimizar la carga del modo Reloj de Pared (`css/components.css`, `css/themes.css`, `css/responsive.css`).
+- Limpieza de selectores layout inactivos (`#app`, `.app-header`) en `css/main.css`.
 - App legacy no cargada por la UI actual (`js/app.js`, `js/ui.js`, `js/pwa.js`).
 - Rama experimental plugin/DI (`js/app-v2.js`, `js/core/**`, `js/plugins/TimerPlugin.js`).
 - Suite funcional acoplada a la arquitectura anterior.
