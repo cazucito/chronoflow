@@ -33,7 +33,7 @@ El código legacy y la rama experimental plugin/DI fueron retirados para reducir
 
 ## Documentación
 
-- [SPECIFICATION.md](./SPECIFICATION.md) - Requerimientos completos (contrato)
+- [docs/SPECIFICATION.md](./docs/SPECIFICATION.md) - Requerimientos completos (contrato)
 - [AGENTS.md](./AGENTS.md) - Contrato de comportamiento para agentes IA
 - [docs/README.md](./docs/README.md) - Índice de documentación
 - [docs/METHODOLOGY.md](./docs/METHODOLOGY.md) - Proceso SDD documentado

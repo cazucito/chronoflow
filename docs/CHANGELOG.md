@@ -15,6 +15,7 @@ Esta es la versión **1.0.0** del proyecto ChronoFlow, marcando un nuevo inicio 
 - README, TODO y arquitectura fueron actualizados para reflejar la implementación vigente.
 - Se reorganizó la documentación siguiendo convenciones consistentes (UPPERCASE).
 - Se creó `docs/README.md` como índice de documentación.
+- Se movió `SPECIFICATION.md` a `docs/` para unificar toda la documentación técnica.
 
 ### Removed
 - Archivos CSS obsoletos de la UI legacy eliminados para optimizar la carga del modo Reloj de Pared (`css/components.css`, `css/themes.css`, `css/responsive.css`).

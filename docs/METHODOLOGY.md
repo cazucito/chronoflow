@@ -34,7 +34,7 @@ IA: [agrega Pomodoro, rompe algo existente]
 
 ### El problema con SDD
 ```
-Desarrollador: [entrega SPECIFICATION.md completa]
+Desarrollador: [entrega docs/SPECIFICATION.md completa]
 IA: [implementa RF-01 a RF-05 con trazabilidad directa]
 Desarrollador: [revisa contra spec, 0 sorpresas]
 ```
@@ -239,7 +239,7 @@ Implementar algo diferente a la spec y no registrarlo.
 | Aspecto | SDD | TDD | BDD | Agile/Scrum |
 |---------|-----|-----|-----|-------------|
 | **Focus principal** | Especificación completa | Tests primero | Comportamiento de usuario | Iteraciones cortas |
-| **Artefacto central** | SPECIFICATION.md | Test suite | Feature files | Product backlog |
+| **Artefacto central** | `docs/SPECIFICATION.md` | Test suite | Feature files | Product backlog |
 | **Momento de decisiones** | Antes de codificar | Al escribir tests | Al escribir scenarios | Durante el sprint |
 | **AI-friendly** | ★★★★★ | ★★★ | ★★★★ | ★★ |
 | **Documentación** | Inherente | Parcial | Parcial | Variable |
@@ -268,7 +268,7 @@ Implementar algo diferente a la spec y no registrarlo.
 
 ### Cómo entregar contexto a la IA
 ```
-"Lee SPECIFICATION.md antes de empezar.
+"Lee `docs/SPECIFICATION.md` antes de empezar.
 Implementa [RF-XX].
 Cada función debe referenciar el RF que implementa en un comentario.
 Si necesitas algo no cubierto en la spec, dímelo antes de implementarlo."

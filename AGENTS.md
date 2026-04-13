@@ -10,7 +10,7 @@ Este archivo define las reglas que **cualquier agente IA** (Claude, GPT, Gemini,
 
 Antes de cualquier acción, leer en este orden:
 
-1. `SPECIFICATION.md` — **SIEMPRE** primero. Es el contrato de lo que se construye.
+1. `docs/SPECIFICATION.md` — **SIEMPRE** primero. Es el contrato de lo que se construye.
 2. `docs/METHODOLOGY.md` — Entender el proceso SDD antes de implementar.
 3. `README.md` — Estado actual del proyecto.
 4. `docs/TODO.md` — Qué está en curso y qué sigue.
@@ -34,7 +34,7 @@ self.addEventListener('install', (event) => { ... });
 ```
 
 ### 2.2 Prohibiciones absolutas
-- **Nunca** implementar features no documentadas en `SPECIFICATION.md`
+- **Nunca** implementar features no documentadas en `docs/SPECIFICATION.md`
 - **Nunca** modificar la API pública de un módulo sin actualizar §5 de la spec
 - **Nunca** silenciar errores sin al menos emitir un evento o log estructurado
 - **Nunca** usar frameworks JS (React, Vue, etc.) — ver ADR-001 en `docs/DECISIONS.md`

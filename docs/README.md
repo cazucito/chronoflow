@@ -19,11 +19,11 @@ Esta carpeta contiene toda la documentación técnica del proyecto.
 |---------|-----------|
 | [`../AGENTS.md`](../AGENTS.md) | Contrato de comportamiento para agentes IA |
 | [`../README.md`](../README.md) | Entrada principal del proyecto |
-| [`../SPECIFICATION.md`](../SPECIFICATION.md) | Especificación completa (contrato) |
+| [`SPECIFICATION.md`](./SPECIFICATION.md) | Especificación completa (contrato) |
 
 ## Flujo de Trabajo SDD
 
-1. Leer [`SPECIFICATION.md`](../SPECIFICATION.md) — entender qué se construye
+1. Leer [`SPECIFICATION.md`](./SPECIFICATION.md) — entender qué se construye
 2. Revisar [`AGENTS.md`](../AGENTS.md) — si usas IA para desarrollar
 3. Revisar [`METHODOLOGY.md`](./METHODOLOGY.md) — entender cómo se construye
 4. Consultar [`ARCHITECTURE.md`](./ARCHITECTURE.md) — entender la implementación actual
