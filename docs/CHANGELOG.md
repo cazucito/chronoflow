@@ -4,12 +4,16 @@ Todos los cambios notables de ChronoFlow se documentan aquí.
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [1.0.0] - 2026-04-13
+
+### 🎉 Release Inicial — Fresh Start
+
+Esta es la versión **1.0.0** del proyecto ChronoFlow, marcando un nuevo inicio después de la consolidación completa del repositorio.
 
 ### Changed
 - Se consolidó el repositorio alrededor del runtime activo `index.html` + `wallclock.js`.
-- README, Todo y arquitectura fueron actualizados para reflejar la implementación vigente.
-- Se reorganizó la documentación: `Decisions.md` y `AGENTS.md` movidos a `docs/`.
+- README, TODO y arquitectura fueron actualizados para reflejar la implementación vigente.
+- Se reorganizó la documentación siguiendo convenciones consistentes (UPPERCASE).
 - Se creó `docs/README.md` como índice de documentación.
 
 ### Removed
@@ -20,9 +24,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Suite funcional acoplada a la arquitectura anterior.
 
 ### Added
-- Smoke tests mínimos orientados al runtime actual (`tests/smoke.js`).
+- PWA completa con Service Worker registrado y funcionando offline.
 - Iconos PWA completos: `icon.svg`, `icon-192x192.png`, `icon-512x512.png`.
-- Registro de Service Worker en `index.html` para funcionamiento offline.
+- Smoke tests mínimos orientados al runtime actual (`tests/smoke.js`).
+- Documentación estructurada: AGENTS.md en raíz, docs/ con archivos técnicos.
+- Dual Timezone Display para LATAM.
+- Especificación SDD v1.4 completa.
 
 ## [1.0.0] - 2026-03-XX (Fecha estimada Fase 3)
 
