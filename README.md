@@ -34,12 +34,13 @@ El código legacy y la rama experimental plugin/DI fueron retirados para reducir
 ## Documentación
 
 - [SPECIFICATION.md](./SPECIFICATION.md) - Requerimientos completos (contrato)
+- [AGENTS.md](./AGENTS.md) - Contrato de comportamiento para agentes IA
 - [docs/README.md](./docs/README.md) - Índice de documentación
 - [docs/METHODOLOGY.md](./docs/METHODOLOGY.md) - Proceso SDD documentado
 - [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) - Arquitectura vigente
 - [docs/CHANGELOG.md](./docs/CHANGELOG.md) - Cambios versionados
-- [docs/Decisions.md](./docs/Decisions.md) - Decisiones arquitectónicas (ADRs)
-- [docs/AGENTS.md](./docs/AGENTS.md) - Guía para agentes IA
+- [docs/DECISIONS.md](./docs/DECISIONS.md) - Decisiones arquitectónicas (ADRs)
+- [docs/TODO.md](./docs/TODO.md) - Seguimiento de tareas
 
 ## Uso
 

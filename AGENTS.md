@@ -13,8 +13,8 @@ Antes de cualquier acción, leer en este orden:
 1. `SPECIFICATION.md` — **SIEMPRE** primero. Es el contrato de lo que se construye.
 2. `docs/METHODOLOGY.md` — Entender el proceso SDD antes de implementar.
 3. `README.md` — Estado actual del proyecto.
-4. `Todo.md` — Qué está en curso y qué sigue.
-5. `Decisions.md` — Decisiones arquitectónicas ya tomadas (no reabrir sin justificación).
+4. `docs/TODO.md` — Qué está en curso y qué sigue.
+5. `docs/DECISIONS.md` — Decisiones arquitectónicas ya tomadas (no reabrir sin justificación).
 
 **Regla**: Si no has leído la spec completa, no escribas código.
 
@@ -37,7 +37,7 @@ self.addEventListener('install', (event) => { ... });
 - **Nunca** implementar features no documentadas en `SPECIFICATION.md`
 - **Nunca** modificar la API pública de un módulo sin actualizar §5 de la spec
 - **Nunca** silenciar errores sin al menos emitir un evento o log estructurado
-- **Nunca** usar frameworks JS (React, Vue, etc.) — ver ADR-001 en `Decisions.md`
+- **Nunca** usar frameworks JS (React, Vue, etc.) — ver ADR-001 en `docs/DECISIONS.md`
 - **Nunca** hacer llamadas a APIs externas — todo es offline-first
 
 ### 2.3 Obligaciones
@@ -168,7 +168,7 @@ Solo usar tecnologías listadas en §4.1 de la spec:
 | localStorage | Preferencias y presets |
 | IndexedDB | Historial de sesiones |
 
-**No autorizado** sin actualizar la spec y `Decisions.md`:
+**No autorizado** sin actualizar la spec y `docs/DECISIONS.md`:
 - Cualquier framework JS (React, Vue, Svelte, etc.)
 - npm packages / node_modules
 - CDNs externos
@@ -198,7 +198,7 @@ Para RF de accesibilidad:
 
 ## 9. Decisiones Ya Tomadas (No Reabrir)
 
-Ver `Decisions.md` para el razonamiento completo de:
+Ver `docs/DECISIONS.md` para el razonamiento completo de:
 
 | Decisión | Veredicto |
 |----------|-----------|
@@ -210,7 +210,7 @@ Ver `Decisions.md` para el razonamiento completo de:
 
 Para proponer un cambio a cualquiera de estas decisiones:
 1. Abrir discusión con el usuario
-2. Si se aprueba, crear nuevo ADR en `Decisions.md`
+2. Si se aprueba, crear nuevo ADR en `docs/DECISIONS.md`
 3. Actualizar spec si el cambio afecta RFs o RNFs
 4. Solo entonces implementar
 

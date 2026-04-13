@@ -2,31 +2,32 @@
 
 Esta carpeta contiene toda la documentación técnica del proyecto.
 
-## Estructura
+## Estructura de `docs/`
 
 | Archivo | Propósito |
 |---------|-----------|
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Arquitectura vigente del runtime actual |
 | [`CHANGELOG.md`](./CHANGELOG.md) | Historial de cambios versionados |
+| [`DECISIONS.md`](./DECISIONS.md) | Architecture Decision Records (ADRs) |
 | [`METHODOLOGY.md`](./METHODOLOGY.md) | Guía de Specification-Driven Development (SDD) |
-| [`Decisions.md`](./Decisions.md) | Architecture Decision Records (ADRs) |
-| [`AGENTS.md`](./AGENTS.md) | Contrato de comportamiento para agentes IA |
+| [`README.md`](./README.md) | Este índice |
+| [`TODO.md`](./TODO.md) | Seguimiento de tareas y backlog |
 
 ## Documentos en Raíz
 
 | Archivo | Propósito |
 |---------|-----------|
+| [`../AGENTS.md`](../AGENTS.md) | Contrato de comportamiento para agentes IA |
 | [`../README.md`](../README.md) | Entrada principal del proyecto |
 | [`../SPECIFICATION.md`](../SPECIFICATION.md) | Especificación completa (contrato) |
-| [`../Todo.md`](../Todo.md) | Seguimiento de tareas y backlog |
 
 ## Flujo de Trabajo SDD
 
 1. Leer [`SPECIFICATION.md`](../SPECIFICATION.md) — entender qué se construye
-2. Revisar [`METHODOLOGY.md`](./METHODOLOGY.md) — entender cómo se construye
-3. Consultar [`ARCHITECTURE.md`](./ARCHITECTURE.md) — entender la implementación actual
-4. Seguir [`AGENTS.md`](./AGENTS.md) — si usas IA para desarrollar
-5. Documentar decisiones en [`Decisions.md`](./Decisions.md)
+2. Revisar [`AGENTS.md`](../AGENTS.md) — si usas IA para desarrollar
+3. Revisar [`METHODOLOGY.md`](./METHODOLOGY.md) — entender cómo se construye
+4. Consultar [`ARCHITECTURE.md`](./ARCHITECTURE.md) — entender la implementación actual
+5. Documentar decisiones en [`DECISIONS.md`](./DECISIONS.md)
 6. Actualizar [`CHANGELOG.md`](./CHANGELOG.md) con cada cambio
 
 ---
