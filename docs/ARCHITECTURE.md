@@ -30,8 +30,9 @@ El runtime actual de ChronoFlow está compuesto por una sola ruta activa y un co
 - Reacciona a `timer:complete`.
 
 ### `sw.js` y `manifest.json`
-- Activos PWA mantenidos en el repo.
-- Forman parte de la publicación, aunque su integración final todavía requiere cierre de brechas.
+- Service Worker registrado en `index.html` para funcionamiento offline.
+- Estrategia Cache-First para assets estáticos.
+- PWA instalable y funcionando offline completamente.
 
 ## Flujo de Ejecución
 

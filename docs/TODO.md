@@ -10,7 +10,7 @@
 - [x] Se reemplazaron tests legacy por smoke tests alineados al runtime actual
 - [x] Se crearon iconos PWA (`assets/icons/`)
 - [x] Se implementó registro de Service Worker
-- [x] Se reorganizó documentación (`docs/Decisions.md`, `docs/AGENTS.md`)
+- [x] Se reorganizó documentación (`docs/DECISIONS.md`, `AGENTS.md` en raíz)
 
 ## Pendientes Inmediatos
 

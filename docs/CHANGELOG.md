@@ -16,6 +16,7 @@ Esta es la versión **1.0.0** del proyecto ChronoFlow, marcando un nuevo inicio 
 - Se reorganizó la documentación siguiendo convenciones consistentes (UPPERCASE).
 - Se creó `docs/README.md` como índice de documentación.
 - Se movió `SPECIFICATION.md` a `docs/` para unificar toda la documentación técnica.
+- Se sincronizó ARCHITECTURE.md (estado actual del SW), CHANGELOG.md y TODO.md.
 
 ### Removed
 - Archivos CSS obsoletos de la UI legacy eliminados para optimizar la carga del modo Reloj de Pared (`css/components.css`, `css/themes.css`, `css/responsive.css`).
@@ -31,14 +32,6 @@ Esta es la versión **1.0.0** del proyecto ChronoFlow, marcando un nuevo inicio 
 - Documentación estructurada: AGENTS.md en raíz, docs/ con archivos técnicos.
 - Dual Timezone Display para LATAM.
 - Especificación SDD v1.4 completa.
-
-## [1.0.0] - 2026-03-XX (Fecha estimada Fase 3)
-
-### Added
-- MVP completo
-- Notificaciones push
-- Historial de sesiones
-- Exportar datos
 
 ## Cómo usar este changelog
 
