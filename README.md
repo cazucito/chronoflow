@@ -10,8 +10,8 @@ Este proyecto es un **ejercicio de Specification-Driven Development (SDD)** en l
 
 - [x] Especificación v1.4 - Aprobada
 - [x] Runtime activo consolidado en modo wall clock
-- [ ] Limpieza de activos PWA pendientes (`assets/icons`, `assets/screenshots`)
-- [ ] Fase 2: cierre de RF requeridos aún no completos en runtime actual
+- [x] PWA completa: Service Worker + iconos + instalable
+- [ ] Fase 2: cierre de RF requeridos (notificaciones, Pomodoro, themes)
 - [ ] Fase 3: historial y extras
 
 ## Runtime Actual
@@ -22,14 +22,24 @@ Este proyecto es un **ejercicio de Specification-Driven Development (SDD)** en l
 - Alertas: `js/notifications.js`
 - PWA publicada: `sw.js` + `manifest.json`
 
-El código legacy y la rama experimental plugin/DI fueron retirados para reducir ruido y evitar rutas muertas en el repositorio.
+El código legacy y la rama experimental plugin/DI fueron retirados para reducir ruido y evitar rutas muertas.
+
+### PWA Features
+- ✅ Instalable (Add to Home Screen)
+- ✅ Funcionamiento offline completo
+- ✅ Service Worker con cache-first
+- ✅ Iconos optimizados (192x192, 512x512)
+- 🔄 Push notifications (próximamente)
 
 ## Documentación
 
-- [SPECIFICATION.md](./SPECIFICATION.md) - Requerimientos completos
+- [SPECIFICATION.md](./SPECIFICATION.md) - Requerimientos completos (contrato)
+- [docs/README.md](./docs/README.md) - Índice de documentación
 - [docs/METHODOLOGY.md](./docs/METHODOLOGY.md) - Proceso SDD documentado
+- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) - Arquitectura vigente
 - [docs/CHANGELOG.md](./docs/CHANGELOG.md) - Cambios versionados
-- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) - Arquitectura vigente del runtime actual
+- [docs/Decisions.md](./docs/Decisions.md) - Decisiones arquitectónicas (ADRs)
+- [docs/AGENTS.md](./docs/AGENTS.md) - Guía para agentes IA
 
 ## Uso
 

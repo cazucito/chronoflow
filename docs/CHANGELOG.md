@@ -9,6 +9,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - Se consolidó el repositorio alrededor del runtime activo `index.html` + `wallclock.js`.
 - README, Todo y arquitectura fueron actualizados para reflejar la implementación vigente.
+- Se reorganizó la documentación: `Decisions.md` y `AGENTS.md` movidos a `docs/`.
+- Se creó `docs/README.md` como índice de documentación.
 
 ### Removed
 - Archivos CSS obsoletos de la UI legacy eliminados para optimizar la carga del modo Reloj de Pared (`css/components.css`, `css/themes.css`, `css/responsive.css`).
@@ -19,6 +21,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 - Smoke tests mínimos orientados al runtime actual (`tests/smoke.js`).
+- Iconos PWA completos: `icon.svg`, `icon-192x192.png`, `icon-512x512.png`.
+- Registro de Service Worker en `index.html` para funcionamiento offline.
 
 ## [1.0.0] - 2026-03-XX (Fecha estimada Fase 3)
 

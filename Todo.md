@@ -8,13 +8,15 @@
 - [x] Se retiró la rama experimental plugin/DI que no formaba parte del runtime
 - [x] Se actualizó la documentación para reflejar la arquitectura vigente
 - [x] Se reemplazaron tests legacy por smoke tests alineados al runtime actual
+- [x] Se crearon iconos PWA (`assets/icons/`)
+- [x] Se implementó registro de Service Worker
+- [x] Se reorganizó documentación (`docs/Decisions.md`, `docs/AGENTS.md`)
 
 ## Pendientes Inmediatos
 
 - [ ] Cerrar brecha entre spec v1.4 y runtime actual sin alterar la UX wall clock
 - [ ] Completar la trazabilidad `RF-*` y `RNF-*` en módulos activos
 - [ ] Revisar integración real de `sw.js` con los assets publicados
-- [ ] Agregar `assets/icons` y `assets/screenshots` o ajustar la publicación PWA
 
 ## Fase 2: RF Requeridos Aún Incompletos
 
