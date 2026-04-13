@@ -164,5 +164,20 @@
     <script src="js/timer.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/wallclock.js"></script>
+    
+    <!-- PWA: Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('✅ SW registrado:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('❌ SW error:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
