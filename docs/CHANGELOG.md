@@ -12,7 +12,7 @@ Esta es la versión **1.0.0** del proyecto ChronoFlow, marcando un nuevo inicio 
 
 ### Changed
 - Se consolidó el repositorio alrededor del runtime activo `index.html` + `wallclock.js`.
-- README, TODO y arquitectura fueron actualizados para reflejar la implementación vigente.
+- README mejorado con roadmap detallado por fases y convenciones explícitas de commits/código.
 - Se reorganizó la documentación siguiendo convenciones consistentes (UPPERCASE).
 - Se creó `docs/README.md` como índice de documentación.
 - Se movió `SPECIFICATION.md` a `docs/` para unificar toda la documentación técnica.
